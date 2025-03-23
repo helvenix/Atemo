@@ -112,11 +112,19 @@
   --sidebar-ring: oklch(0.552 0.016 285.938);
 }
 
+@font-face {
+    font-family: "Plus Jakarta Sans";
+    src: url('/font/PlusJakartaSans.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
   body {
     @apply bg-background text-foreground;
+    font-family: 'Plus Jakarta Sans', sans-serif;
   }
 }

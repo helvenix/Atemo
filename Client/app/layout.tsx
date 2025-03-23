@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import React from "react";
 import { ThemeProvider } from "@/components/theme-provider"
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
+import { AppSidebar } from "@/components/app-sidebar"
+
 
 import "./globals.css";
 
@@ -15,7 +18,7 @@ export default function RootLayout({
     children: React.ReactNode;
     }>) {
     return (
-        <html lang="en">
+        <html lang="en" suppressHydrationWarning>
             <head>
                 <link rel="icon" href="icon/icon.ico" />
             </head>
@@ -26,7 +29,13 @@ export default function RootLayout({
                     enableSystem
                     disableTransitionOnChange
                 >
-                    {children}
+                    <SidebarProvider>
+                        <AppSidebar />
+                            <main>
+                                <SidebarTrigger />
+                                {children}
+                            </main>
+                    </SidebarProvider>
                 </ThemeProvider>
             </body>
         </html>
