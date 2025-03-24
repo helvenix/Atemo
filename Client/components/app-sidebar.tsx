@@ -41,11 +41,12 @@ import {
     ChevronsUpDown,
     LogOut,
     MessageSquareWarning,
-    SunMoon
+    SunMoon,
+    Check
 } from "lucide-react"
 
   export function AppSidebar() {
-    const {setTheme} = useTheme()
+    const {theme, setTheme} = useTheme()
 
     return (
         <Sidebar>
@@ -92,9 +93,24 @@ import {
                                     </DropdownMenuSubTrigger>
                                     <DropdownMenuPortal>
                                         <DropdownMenuSubContent>
-                                            <DropdownMenuItem>Light</DropdownMenuItem>
-                                            <DropdownMenuItem>Dark</DropdownMenuItem>
-                                            <DropdownMenuItem>System</DropdownMenuItem>
+                                            <DropdownMenuItem onClick={() => setTheme("light")}>
+                                                Light
+                                                {theme === "light" && (
+                                                    <Check className="absolute right-2"/>
+                                                )}
+                                            </DropdownMenuItem>
+                                            <DropdownMenuItem onClick={() => setTheme("dark")}>
+                                                Dark
+                                                {theme === "dark" && (
+                                                    <Check className="absolute right-2"/>
+                                                )}
+                                            </DropdownMenuItem>
+                                            <DropdownMenuItem onClick={() => setTheme("system")}>
+                                                System
+                                                {theme === "system" && (
+                                                    <Check className="absolute right-2"/>
+                                                )}
+                                            </DropdownMenuItem>
                                         </DropdownMenuSubContent>
                                     </DropdownMenuPortal>
                                 </DropdownMenuSub>
