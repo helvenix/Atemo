@@ -543,7 +543,7 @@ export function AppSidebar() {
                     </Collapsible>
                 </ScrollArea>
             </SidebarContent>
-            <SidebarFooter className="mb-2">
+            <SidebarFooter>
                 <SidebarMenu>
                     <SidebarMenuItem>
                         <DropdownMenu>
