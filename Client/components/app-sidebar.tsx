@@ -68,7 +68,8 @@ import {
     Calendar1,
     CalendarSync,
     MoreVertical,
-    MoreHorizontal
+    MoreHorizontal,
+    CalendarCheck
 } from "lucide-react"
 
 
@@ -118,7 +119,7 @@ export function AppSidebar() {
                         <SidebarGroup>
                             <SidebarGroupLabel asChild className="cursor-pointer">
                                 <CollapsibleTrigger>
-                                    My Tasks
+                                    Tasks
                                     <ChevronDown className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-180"></ChevronDown>
                                 </CollapsibleTrigger>
                             </SidebarGroupLabel>
@@ -171,7 +172,7 @@ export function AppSidebar() {
                         <SidebarGroup>
                             <SidebarGroupLabel asChild className="cursor-pointer">
                                 <CollapsibleTrigger>
-                                    My Events
+                                    Events
                                     <ChevronDown className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-180"></ChevronDown>
                                 </CollapsibleTrigger>
                             </SidebarGroupLabel>
@@ -203,6 +204,11 @@ export function AppSidebar() {
                                         <SidebarMenuItem>
                                             <SidebarMenuButton>
                                                 <CalendarSync /> <span>Recurring</span>
+                                            </SidebarMenuButton>
+                                        </SidebarMenuItem>
+                                        <SidebarMenuItem>
+                                            <SidebarMenuButton>
+                                                <CalendarCheck /> <span>Past</span>
                                             </SidebarMenuButton>
                                         </SidebarMenuItem>
                                         <SidebarMenuItem>
