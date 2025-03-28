@@ -18,10 +18,6 @@ import {
     SidebarMenuBadge,
     SidebarSeparator,
 } from "@/components/ui/sidebar"
-import {
-    ToggleGroup,
-    ToggleGroupItem
-} from "@/components/ui/toggle-group"
 import { Button } from "@/components/ui/button";
 import {
     ResizableHandle,
