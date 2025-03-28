@@ -67,7 +67,6 @@ import {
     CalendarDays,
     Calendar1,
     CalendarSync,
-    MoreVertical,
     MoreHorizontal,
     CalendarCheck
 } from "lucide-react"

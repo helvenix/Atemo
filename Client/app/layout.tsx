@@ -3,7 +3,7 @@ import React from "react";
 import { ThemeProvider } from "@/components/theme-provider"
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/app-sidebar"
-
+import { AppList } from "@/components/app-list"
 
 import "./globals.css";
 
@@ -34,6 +34,7 @@ export default function RootLayout({
                             <main>
                                 {children}
                             </main>
+                        <AppList />
                     </SidebarProvider>
                 </ThemeProvider>
             </body>
