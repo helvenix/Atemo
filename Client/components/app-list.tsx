@@ -49,13 +49,13 @@ export function AppList(){
                                     (shown === "tasks" || shown === "all") ? "border-affirmative" : ""
                                 )}
                             >
-                                Tasks
+                                tasks
                             </Button>
                             <Button
                                 variant="filter"
                                 onClick={() => handleShown("all")}
                                 className={cn(
-                                    "w-8 rounded-none",
+                                    "w-8 rounded-none border-l-0 border-r-0",
                                     (shown === "all") ? "border-affirmative" : ""
                                 )}
                             >
@@ -81,11 +81,11 @@ export function AppList(){
                     direction="vertical"
                     className="h-full w-full"
                 >
-                    <ResizablePanel defaultSize={50} minSize={20} className="flex items-center justify-center">
+                    <ResizablePanel defaultSize={50} minSize={20} className={cn("flex items-center justify-center", (shown === "all" || shown === "tasks") ? "" : "hidden")}>
                         Tasks
                     </ResizablePanel>
-                    <ResizableHandle withHandle/>
-                    <ResizablePanel defaultSize={50} minSize={20} className="flex items-center justify-center">
+                    <ResizableHandle withHandle className={`${shown === "all" ? "" : "hidden"}`} />
+                    <ResizablePanel defaultSize={50} minSize={20} className={cn("flex items-center justify-center", (shown === "all" || shown === "events") ? "" : "hidden")}>
                         Events
                     </ResizablePanel>
                 </ResizablePanelGroup>
