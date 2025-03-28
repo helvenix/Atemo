@@ -29,6 +29,7 @@ import { CircleSmall } from "lucide-react";
 
 export function AppList(){
     const [shown, setShown] = useState("all")
+    const [sizes, setSizes] = useState([20, 20])
 
     const handleShown = (value: string) => {
         if(shown === value) value = "all";
@@ -81,11 +82,18 @@ export function AppList(){
                     direction="vertical"
                     className="h-full w-full"
                 >
-                    <ResizablePanel defaultSize={50} minSize={20} className={cn("flex items-center justify-center", (shown === "all" || shown === "tasks") ? "" : "hidden")}>
+                    <ResizablePanel defaultSize={50} minSize={sizes[0]} className={cn("flex items-center justify-center", (shown === "all" || shown === "tasks") ? "" : "hidden")}>
                         Tasks
                     </ResizablePanel>
-                    <ResizableHandle withHandle className={`${shown === "all" ? "" : "hidden"}`} />
-                    <ResizablePanel defaultSize={50} minSize={20} className={cn("flex items-center justify-center", (shown === "all" || shown === "events") ? "" : "hidden")}>
+                    <ResizableHandle 
+                        withHandle 
+                        onDoubleClick={() => {
+                            setSizes([50,50])
+                            setTimeout(() => {setSizes([20,20])}, 1)
+                        }}
+                        className={`${shown === "all" ? "" : "hidden"}`} 
+                    />
+                    <ResizablePanel defaultSize={50} minSize={sizes[1]} className={cn("flex items-center justify-center", (shown === "all" || shown === "events") ? "" : "hidden")}>
                         Events
                     </ResizablePanel>
                 </ResizablePanelGroup>
