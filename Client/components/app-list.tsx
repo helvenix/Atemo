@@ -6,16 +6,8 @@ import {
     Sidebar,
     SidebarHeader,
     SidebarContent,
-    SidebarGroup,
-    SidebarGroupContent,
-    SidebarGroupLabel,
     SidebarMenu,
-    SidebarMenuButton,
     SidebarMenuItem,
-    SidebarFooter,
-    SidebarGroupAction,
-    SidebarMenuAction,
-    SidebarMenuBadge,
     SidebarSeparator,
 } from "@/components/ui/sidebar"
 import { Button } from "@/components/ui/button";
@@ -24,12 +16,72 @@ import {
     ResizablePanel,
     ResizablePanelGroup,
 } from "@/components/ui/resizable"
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+} from "@/components/ui/card"
+import { ScrollArea } from "@/components/ui/scroll-area";
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from "@/components/ui/tooltip"
+import { Progress } from "@/components/ui/progress";
+  
 
-import { CircleSmall } from "lucide-react";
+
+import { CheckCheck, CircleSmall, Clock, PenLine, Trash2 } from "lucide-react";
+
+function FocusCard(){
+    return (
+        <Card className="relative h-30 p-2 shadow-xs bg-background w-full border-l-0 border-r-0 rounded-none">
+            <CardHeader className="w-full text-sm absolute p-0">
+                Kuis 4 MPKT
+            </CardHeader>
+            <CardDescription>
+                <Clock className="absolute size-3 top-7.5" /> <span className="absolute top-7 left-6 text-[0.6rem]/4">March 30, 2025 | 23:59</span>
+            </CardDescription>
+            <Progress className="absolute h-1 w-48 top-12.5 left-0 rounded-l-none" value={24} />
+            <CardDescription>
+                <ScrollArea className="h-12 w-50 pr-1 absolute top-7 text-xs">
+                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sit reprehenderit sapiente suscipit ullam magnam animi impedit labore, optio fugit voluptatum id aspernatur quam at. Quisquam eveniet ut hic veritatis culpa cupiditate nisi possimus eum id voluptatum. Temporibus adipisci nesciunt molestiae eius eaque sit at, voluptates et aperiam. Unde, molestiae fuga?
+                </ScrollArea>
+            </CardDescription>
+            <CardContent className="absolute right-2 p-0 top-2 bottom-2 flex items-center">
+                <span className="absolute top-0 right-1 text-affirmative">024:23:40</span>
+                <TooltipProvider delayDuration={12000}>
+                    <Tooltip>
+                        <TooltipTrigger asChild>
+                            <PenLine className="absolute bottom-0 right-8 size-6 p-1 text-muted-foreground hover:text-affirmative cursor-pointer"/> 
+                        </TooltipTrigger>
+                        <TooltipContent side="left"><span>edit</span></TooltipContent>
+                    </Tooltip>
+                </TooltipProvider>
+                <TooltipProvider delayDuration={12000}>
+                    <Tooltip>
+                        <TooltipTrigger asChild>
+                            <Trash2 className="absolute bottom-0 right-0 size-6 p-1 text-muted-foreground hover:text-destructive cursor-pointer"/> 
+                        </TooltipTrigger>
+                        <TooltipContent side="left"><span>delete</span></TooltipContent>
+                    </Tooltip>
+                </TooltipProvider>
+            </CardContent>
+            <CardContent className="absolute duration-240 cursor-pointer p-0 top-10 bottom-10 right-0 w-18 border border-r-0 rounded-full rounded-r-none hover:bg-affirmative flex items-center justify-center">
+                <CheckCheck className="size-4" />
+            </CardContent>
+        </Card>
+    )
+}
 
 export function AppList(){
     const [shown, setShown] = useState("all")
-    const [sizes, setSizes] = useState([20, 20])
+    const [sizes, setSizes] = useState([24, 24])
+    const [button, setButton] = useState("opened")
 
     const handleShown = (value: string) => {
         if(shown === value) value = "all";
@@ -83,13 +135,13 @@ export function AppList(){
                     className="h-full w-full"
                 >
                     <ResizablePanel defaultSize={50} minSize={sizes[0]} className={cn("flex items-center justify-center", (shown === "all" || shown === "tasks") ? "" : "hidden")}>
-                        Tasks
+                        <FocusCard />
                     </ResizablePanel>
                     <ResizableHandle 
                         withHandle 
                         onDoubleClick={() => {
                             setSizes([50,50])
-                            setTimeout(() => {setSizes([20,20])}, 1)
+                            setTimeout(() => {setSizes([24,24])}, 1)
                         }}
                         className={`${shown === "all" ? "" : "hidden"}`} 
                     />
