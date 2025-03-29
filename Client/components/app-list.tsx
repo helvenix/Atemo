@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { cn } from "@/lib/utils"; 
 
 import {
@@ -78,6 +78,19 @@ function FocusCard(){
     )
 }
 
+function MinimalCard(){
+    return (
+        <Card className="relative h-10 p-2 shadow-xs bg-background w-full border-l-0 border-r-0 rounded-none">
+            <CardHeader className="w-full text-sm absolute p-0">
+                Kuis 4 MPKT
+            </CardHeader>
+            <CardContent className="absolute right-2 p-0 top-2 bottom-2 flex items-center">
+                <span className="absolute top-0 right-1 text-affirmative">024:23:40</span>
+            </CardContent>
+        </Card>
+    )
+}
+
 export function AppList(){
     const [shown, setShown] = useState("all")
     const [sizes, setSizes] = useState([24, 24])
@@ -135,7 +148,11 @@ export function AppList(){
                     className="h-full w-full"
                 >
                     <ResizablePanel defaultSize={50} minSize={sizes[0]} className={cn("flex items-center justify-center", (shown === "all" || shown === "tasks") ? "" : "hidden")}>
+                        <MinimalCard />
+                        <MinimalCard />
                         <FocusCard />
+                        <MinimalCard />
+                        <MinimalCard />
                     </ResizablePanel>
                     <ResizableHandle 
                         withHandle 
