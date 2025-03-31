@@ -34,14 +34,100 @@ import {
 import { Progress } from "@/components/ui/progress";
   
 
-
 import { CheckCheck, CircleSmall, Clock, PenLine, Trash2 } from "lucide-react";
 
-function FocusCard(){
+interface Task {
+    _id: string;
+    id: number;
+    title: string;
+    start: string;
+    deadline: string;
+    notes: string;
+    completed: boolean;
+    createdAt: string;
+    __v: number;
+    completionDate: string;
+}
+
+const tasks: Task[] = [
+    {
+        _id: "67d64029adcc1811c223d988",
+        id: 26,
+        title: "Lab 2 DDAK",
+        start: "2025-03-14T17:00:00.000Z",
+        deadline: "2025-03-18T16:55:00.000Z",
+        notes: "",
+        completed: true,
+        createdAt: "2025-03-16T03:06:17.570Z",
+        __v: 0,
+        completionDate: "2025-03-18T10:38:52.784Z"
+    },
+    {
+        _id: "67d64029adcc1811c2be3988",
+        id: 27,
+        title: "Lab 3 DDAK",
+        start: "2025-03-14T17:00:00.000Z",
+        deadline: "2025-03-18T16:55:00.000Z",
+        notes: "",
+        completed: true,
+        createdAt: "2025-03-16T03:06:17.570Z",
+        __v: 0,
+        completionDate: "2025-03-18T10:38:52.784Z"
+    },
+    {
+        _id: "67d64090adcc1811c2be398b",
+        id: 28,
+        title: "Worksheet 07 MatDis 2",
+        start: "2025-03-15T14:20:00.000Z",
+        deadline: "2025-03-20T14:20:00.000Z",
+        notes: "",
+        completed: true,
+        createdAt: "2025-03-16T03:08:00.165Z",
+        __v: 0,
+        completionDate: "2025-03-19T17:58:59.959Z"
+    },
+    {
+        _id: "67d64141adcc1811c2be398e",
+        id: 29,
+        title: "Tugas Individu 2 PPSI",
+        start: "2025-03-14T04:25:00.000Z",
+        deadline: "2025-03-25T16:55:00.000Z",
+        notes: "",
+        completed: true,
+        createdAt: "2025-03-16T03:10:57.800Z",
+        __v: 0,
+        completionDate: "2025-03-25T12:05:28.276Z"
+    },
+    {
+        _id: "67e29c90cdadda589c449e31",
+        id: 30,
+        title: "Worksheet 8 MatDis 2",
+        start: "2025-03-22T03:01:00.000Z",
+        deadline: "2025-03-26T14:30:00.000Z",
+        notes: "",
+        completed: true,
+        createdAt: "2025-03-25T12:07:44.733Z",
+        __v: 0,
+        completionDate: "2025-03-26T13:46:19.363Z"
+    }
+]
+
+interface CardProps {
+    task: Task;
+    className?: string;
+    style?: React.CSSProperties;
+}
+
+function FocusCard({ task, className, style } : CardProps){
     return (
-        <Card className="relative h-30 p-2 shadow-xs bg-background w-full border-l-0 border-r-0 rounded-none">
+        <Card className={cn(
+            className,
+            "relative h-30 p-2 shadow-xs bg-background w-full border-l-0 border-r-0 rounded-none"
+        )}
+            style={style}
+        >
             <CardHeader className="w-full text-sm absolute p-0">
-                Kuis 4 MPKT
+                {task.title}
             </CardHeader>
             <CardDescription>
                 <Clock className="absolute size-3 top-7.5" /> <span className="absolute top-7 left-6 text-[0.6rem]/4">March 30, 2025 | 23:59</span>
@@ -49,7 +135,7 @@ function FocusCard(){
             <Progress className="absolute h-1 w-48 top-12.5 left-0 rounded-l-none" value={24} />
             <CardDescription>
                 <ScrollArea className="h-12 w-50 pr-1 absolute top-7 text-xs">
-                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sit reprehenderit sapiente suscipit ullam magnam animi impedit labore, optio fugit voluptatum id aspernatur quam at. Quisquam eveniet ut hic veritatis culpa cupiditate nisi possimus eum id voluptatum. Temporibus adipisci nesciunt molestiae eius eaque sit at, voluptates et aperiam. Unde, molestiae fuga?
+                    It's completed at {task.completionDate}, which start at {task.start} and end at {task.deadline}
                 </ScrollArea>
             </CardDescription>
             <CardContent className="absolute right-2 p-0 top-2 bottom-2 flex items-center">
@@ -78,11 +164,16 @@ function FocusCard(){
     )
 }
 
-function MinimalCard(){
+function MinimalCard({task, className, style}: CardProps){
     return (
-        <Card className="relative h-10 p-2 shadow-xs bg-background w-full border-l-0 border-r-0 rounded-none">
+        <Card className={cn(
+            className,
+            "relative h-10 p-2 shadow-xs bg-background w-full border-0 rounded-none"
+        )}
+            style={style}
+        >
             <CardHeader className="w-full text-sm absolute p-0">
-                Kuis 4 MPKT
+                {task.title}
             </CardHeader>
             <CardContent className="absolute right-2 p-0 top-2 bottom-2 flex items-center">
                 <span className="absolute top-0 right-1 text-affirmative">024:23:40</span>
@@ -91,10 +182,48 @@ function MinimalCard(){
     )
 }
 
+interface CarouselProps {
+    tasks: Task[];
+    hovered: boolean;
+    focus: number;
+}
+
+function TasksCarousel({tasks, hovered, focus}: CarouselProps){
+    if(hovered){
+        return(
+            <div className="absolute w-full m-0 p-0" style={{top: `calc(50% + ${Math.ceil(tasks.length/2 - 1) - focus} * 2.5rem)`, transform: "translateY(-50%)"}}>
+                {tasks.map((task, index) =>
+                    index === focus ?
+                        <FocusCard 
+                            key={task._id} 
+                            task={task} 
+                        /> 
+                        :
+                        <MinimalCard 
+                            key={task._id} 
+                            task={task} 
+                            className="opacity-24"
+                        />
+                )}
+            </div>
+        )
+    }
+    return(
+        <div className="w-full m-0 p-0">
+            {tasks.map((task) => {
+                return (
+                    <MinimalCard key={task._id} task={task}/>
+                )
+            })}
+        </div>
+    )
+}
+
 export function AppList(){
     const [shown, setShown] = useState("all")
     const [sizes, setSizes] = useState([24, 24])
-    const [button, setButton] = useState("opened")
+    const [hovered, setHovered] = useState(false)
+    const [focus, setFocus] = useState(Math.ceil(tasks.length/2 - 1))
 
     const handleShown = (value: string) => {
         if(shown === value) value = "all";
@@ -147,12 +276,22 @@ export function AppList(){
                     direction="vertical"
                     className="h-full w-full"
                 >
-                    <ResizablePanel defaultSize={50} minSize={sizes[0]} className={cn("flex items-center justify-center", (shown === "all" || shown === "tasks") ? "" : "hidden")}>
-                        <MinimalCard />
-                        <MinimalCard />
-                        <FocusCard />
-                        <MinimalCard />
-                        <MinimalCard />
+                    <ResizablePanel 
+                        defaultSize={50} 
+                        minSize={sizes[0]} 
+                        className={cn("relative flex items-center justify-center", (shown === "all" || shown === "tasks") ? "" : "hidden")}
+                        onMouseOver={()=> {
+                            setHovered(true)
+                        }}
+                        onMouseLeave={()=> {
+                            setHovered(false)
+                            setFocus(Math.ceil(tasks.length/2 - 1))
+                        }}
+                        onWheel={(e) => {
+                            setFocus(Math.min(Math.max(0, focus + Math.round(e.deltaY * 0.006)), tasks.length -1))
+                        }}
+                    >
+                        <TasksCarousel tasks={tasks} hovered={hovered} focus={focus} />
                     </ResizablePanel>
                     <ResizableHandle 
                         withHandle 
@@ -160,7 +299,7 @@ export function AppList(){
                             setSizes([50,50])
                             setTimeout(() => {setSizes([24,24])}, 1)
                         }}
-                        className={`${shown === "all" ? "" : "hidden"}`} 
+                        className={`${shown === "all" ? "" : "hidden"} p-0.5`} 
                     />
                     <ResizablePanel defaultSize={50} minSize={sizes[1]} className={cn("flex items-center justify-center", (shown === "all" || shown === "events") ? "" : "hidden")}>
                         Events
