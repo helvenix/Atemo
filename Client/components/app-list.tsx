@@ -122,7 +122,7 @@ function FocusCard({ task, className, style } : CardProps){
     return (
         <Card className={cn(
             className,
-            "relative h-30 p-2 shadow-xs bg-background w-full border-l-0 border-r-0 rounded-none"
+            "relative h-30 p-2 shadow-xs bg-background w-full border-l-0 border-r-0 border-primary rounded-none"
         )}
             style={style}
         >
@@ -168,7 +168,7 @@ function MinimalCard({task, className, style}: CardProps){
     return (
         <Card className={cn(
             className,
-            "relative h-10 p-2 shadow-xs bg-background w-full border-0 rounded-none"
+            "relative h-10 p-2 shadow-xs bg-background w-full border-r-0 border-l-0 rounded-none"
         )}
             style={style}
         >
@@ -302,7 +302,7 @@ export function AppList(){
                         className={`${shown === "all" ? "" : "hidden"} p-0.5`} 
                     />
                     <ResizablePanel defaultSize={50} minSize={sizes[1]} className={cn("flex items-center justify-center", (shown === "all" || shown === "events") ? "" : "hidden")}>
-                        Events
+                        {"Events Panel (TBA)"}
                     </ResizablePanel>
                 </ResizablePanelGroup>
             </SidebarContent>
