@@ -191,7 +191,7 @@ interface CarouselProps {
 function TasksCarousel({tasks, hovered, focus}: CarouselProps){
     if(hovered){
         return(
-            <div className="absolute w-full m-0 p-0" style={{top: `calc(50% + ${Math.ceil(tasks.length/2 - 1) - focus} * 2.5rem)`, transform: "translateY(-50%)"}}>
+            <div className="absolute w-full m-0 p-0" style={{top: `calc(50% + ${Math.ceil(tasks.length/2 - 1) - focus} * 2.5rem + ${tasks.length % 2 == 0 ? "1.25rem" : "0rem"})`, transform: "translateY(-50%)"}}>
                 {tasks.map((task, index) =>
                     index === focus ?
                         <FocusCard 
