@@ -7,8 +7,8 @@ const NotificationSchema = new mongoose.Schema({
     message: { type: String },
     relatedGroup: { type: mongoose.Schema.Types.ObjectId, ref: 'Group' },
     relatedTask: { type: mongoose.Schema.Types.ObjectId, ref: 'Task' },
-    relatedTask: { type: mongoose.Schema.Types.ObjectId, ref: 'Event' },
-    readStatus: { type: boolean, default: false },
+    relatedEvent: { type: mongoose.Schema.Types.ObjectId, ref: 'Event' },
+    readStatus: { type: Boolean, default: false },
 }, { timestamps: true });  
 
 export default mongoose.model("Notification", NotificationSchema);
