@@ -1,4 +1,6 @@
-const notificationSchema = new mongoose.Schema({
+import mongoose from 'mongoose';
+
+const NotificationSchema = new mongoose.Schema({
     recipient: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     sender: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     type: { type: String, enum: ['task-suggestion', 'group-invite', 'friend-request', 'reminder'], required: true },
@@ -8,3 +10,5 @@ const notificationSchema = new mongoose.Schema({
     relatedTask: { type: mongoose.Schema.Types.ObjectId, ref: 'Event' },
     readStatus: { type: boolean, default: false },
 }, { timestamps: true });  
+
+export default mongoose.model("Notification", NotificationSchema);
