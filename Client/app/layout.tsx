@@ -27,7 +27,9 @@ export default function RootLayout({
                     enableSystem
                     disableTransitionOnChange
                 >
-                    {children}
+                    <main className="w-screen h-screen">
+                        {children}
+                    </main>
                     <Toaster 
                         position="top-center"
                     />
