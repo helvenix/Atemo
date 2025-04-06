@@ -5,8 +5,8 @@ const UserSchema = new mongoose.Schema({
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    profilePicture: { type: String },
-    preferences: { type: mongoose.Schema.Types.Mixed }
+    profilePicture: { type: String, default: "" },
+    preferences: { type: mongoose.Schema.Types.Mixed, default: {} }
 }, { timestamps: true });
 
 export default mongoose.model('User', UserSchema);

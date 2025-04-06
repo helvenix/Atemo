@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import React from "react";
 import { ThemeProvider } from "@/components/theme-provider"
+import { Toaster } from "@/components/ui/sonner"
 
 import "../globals.css";
 
 export const metadata: Metadata = {
-  title: "Atemo",
-  description: "Daily Productivity Web App",
+    title: "Atemo",
+    description: "Daily Productivity Web App",
 };
 
 export default function RootLayout({
@@ -26,9 +27,12 @@ export default function RootLayout({
                     enableSystem
                     disableTransitionOnChange
                 >
-                    <main className="w-full">
+                    <main className="w-screen h-screen">
                         {children}
                     </main>
+                    <Toaster 
+                        position="top-center"
+                    />
                 </ThemeProvider>
             </body>
         </html>

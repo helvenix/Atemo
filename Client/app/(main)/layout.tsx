@@ -4,12 +4,13 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/app-sidebar"
 import { AppList } from "@/components/app-list"
+import { Toaster } from "@/components/ui/sonner"
 
 import "../globals.css";
 
 export const metadata: Metadata = {
-  title: "Atemo",
-  description: "Daily Productivity Web App",
+    title: "Atemo",
+    description: "Daily Productivity Web App",
 };
 
 export default function RootLayout({
@@ -31,9 +32,12 @@ export default function RootLayout({
                 >
                     <SidebarProvider>
                         <AppSidebar />
-                            <main className="w-full">
+                            <main className="w-screen h-screen">
                                 {children}
                             </main>
+                            <Toaster 
+                                position="top-center"
+                            />
                         <AppList />
                     </SidebarProvider>
                 </ThemeProvider>
