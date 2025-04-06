@@ -5,7 +5,7 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/app-sidebar"
 import { AppList } from "@/components/app-list"
 
-import "./globals.css";
+import "../globals.css";
 
 export const metadata: Metadata = {
   title: "Atemo",
@@ -31,7 +31,7 @@ export default function RootLayout({
                 >
                     <SidebarProvider>
                         <AppSidebar />
-                            <main>
+                            <main className="w-full">
                                 {children}
                             </main>
                         <AppList />
