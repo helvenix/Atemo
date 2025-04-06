@@ -55,7 +55,6 @@ export default function LoginPage() {
                 toast.success("Sign up successful", {
                     description: `Welcome ${data.user.name}`
                 });
-                localStorage.setItem('token', data.token);
                 router.push("/");
             }else{
                 toast.error("Sign up failed", {

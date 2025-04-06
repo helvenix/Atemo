@@ -8,12 +8,13 @@ import {
     updateMyProfile,
     getUserProfile
 } from '../controllers/users.js'
+import { auth } from '../middleware/auth.js'
 
 router.post('/register', registerUser);
 router.post('/login', loginUser);
 
-router.get('/me', getMyProfile);
-router.post('/me', updateMyProfile);
+router.get('/me', authMiddleware, getMyProfile);
+router.put('/me', authMiddleware, updateMyProfile);
 
 router.get('/:id', getUserProfile);
 

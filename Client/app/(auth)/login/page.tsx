@@ -47,7 +47,6 @@ export default function LoginPage() {
                 toast.success("Log in successful", {
                     description: `Welcome ${data.user.name}`
                 });
-                localStorage.setItem('token', data.token);
                 router.push("/");
             }else{
                 toast.error("Invalid credentials", {

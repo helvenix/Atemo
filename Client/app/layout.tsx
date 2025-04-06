@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import React from "react";
 import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster } from "@/components/ui/sonner"
+import Auth from "@/components/auth";
 
 import "./globals.css";
 
@@ -14,7 +15,8 @@ export default function RootLayout({
     children,
     }: Readonly<{
     children: React.ReactNode;
-    }>) {
+    }>){
+    
     return (
         <html lang="en" suppressHydrationWarning>
             <head>
@@ -28,7 +30,9 @@ export default function RootLayout({
                     disableTransitionOnChange
                 >
                     <main className="w-screen h-screen">
-                        {children}
+                        <Auth>
+                            {children}
+                        </Auth>
                     </main>
                     <Toaster 
                         position="top-center"

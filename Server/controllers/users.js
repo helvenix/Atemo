@@ -29,7 +29,17 @@ export const registerUser = async (req, res) => {
         const payload = {userId: user._id};
         const token = jwt.sign(payload, process.env.JWT_SECRET, {expiresIn: '7d'})
 
-        res.status(201).json({message: 'User registered successfully', token, user})
+        res.cookie('token', token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'lax',
+            maxAge: 1000 * 60 * 60 * 24 * 7
+        });
+
+        res.status(201).json({
+            message: 'User registered successfully', 
+            user
+        })
     } catch (e){
         res.status(500).json({message: e.message})
     }
@@ -51,12 +61,16 @@ export const loginUser = async (req, res) => {
         const payload = {userId: user._id};
         const token = jwt.sign(payload, process.env.JWT_SECRET, {expiresIn: '7d'})
 
+        res.cookie('token', token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'lax',
+            maxAge: 1000 * 60 * 60 * 24 * 7
+        });
+
         res.status(200).json({
             message: 'Logged in successfully',
-            token,
-            user: {
-                name: user.name
-            }
+            user
         })
     } catch (e){
         res.status(500).json({message: e.message})
