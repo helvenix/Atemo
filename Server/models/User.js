@@ -9,4 +9,4 @@ const UserSchema = new mongoose.Schema({
     preferences: { type: mongoose.Schema.Types.Mixed }
 }, { timestamps: true });
 
-module.exports = mongoose.model('User', UserSchema);
+export default mongoose.model('User', UserSchema);

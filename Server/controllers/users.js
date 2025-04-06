@@ -1,13 +1,13 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-
-const User = require('../models/User');
+import User from '../models/User.js'
 
 export const registerUser = async (req, res) => {
     try{
-        const { name, email, password, profilePicture, preferences } = req.body;
+        const { uid, name, email, password, profilePicture, preferences } = req.body;
 
-        if(User.findOne({ email })){
+        const existUser = await User.findOne({ email });
+        if(existUser){
             return res.status(400).json({message: 'User already exists'})
         }
 
@@ -15,6 +15,7 @@ export const registerUser = async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, salt);
 
         const user = new User({
+            uid,
             name,
             email,
             password: hashedPassword,
@@ -37,7 +38,8 @@ export const loginUser = async (req, res) => {
         if(!user){
             return res.status(401).json({message: "Email aren't registered"})
         }
-        if(!bcrypt.compare(password, user.password)){
+        const isMatch = await bcrypt.compare(password, user.password);
+        if(!isMatch){
             return res.status(401).json({message: 'Invalid credentials'});
         }
 
