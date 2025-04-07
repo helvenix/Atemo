@@ -31,13 +31,13 @@ export const TaskProvider = ({ children }: { children: React.ReactNode }) => {
 
     // Function to add a task
     const addTask = (task: Task) => {
-        setTasks((prevTasks) => [task, ...prevTasks]);
+        setTasks((prevTasks) => [...prevTasks, task]);
     };
 
     // Function to update a task
     const updateTask = (updatedTask: Task) => {
         setTasks((prevTasks) =>
-        prevTasks.map((task) => (task._id === updatedTask._id ? updatedTask : task))
+            prevTasks.map((task) => (task._id === updatedTask._id ? updatedTask : task))
         );
     };
 
