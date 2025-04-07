@@ -139,7 +139,7 @@ export default function AddPage() {
                                 </Button>
                             </PopoverTrigger>
                             </FormControl>
-                            <PopoverContent className="w-70 p-auto rounded-xs">
+                            <PopoverContent className="w-70 p-auto rounded-xs" side="right">
                             <Calendar
                                 mode="single"
                                 selected={field.value}
@@ -182,7 +182,7 @@ export default function AddPage() {
                                 </Button>
                             </PopoverTrigger>
                             </FormControl>
-                            <PopoverContent className="w-70 p-auto rounded-xs">
+                            <PopoverContent className="w-70 p-auto rounded-xs" side="right">
                             <Calendar
                                 mode="single"
                                 selected={field.value}

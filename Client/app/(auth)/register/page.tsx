@@ -90,7 +90,7 @@ export default function RegisterPage() {
                     render={({ field }) => (
                         <FormItem>
                         <FormControl>
-                            <Input className="h-12" placeholder="Name" {...field} />
+                            <Input className="h-12 border-0 border-b-2 focus-visible:border-affirmative focus-visible:ring-0 rounded-xs" placeholder="Name" {...field} />
                         </FormControl>
                         <FormMessage className="text-destructive"/>
                         </FormItem>
@@ -102,7 +102,7 @@ export default function RegisterPage() {
                     render={({ field }) => (
                         <FormItem>
                         <FormControl>
-                            <Input className="h-12" placeholder="Email" {...field} />
+                            <Input className="h-12 border-0 border-b-2 focus-visible:border-affirmative focus-visible:ring-0 rounded-xs" placeholder="Email" {...field} />
                         </FormControl>
                         <FormMessage className="text-destructive"/>
                         </FormItem>
@@ -114,7 +114,7 @@ export default function RegisterPage() {
                     render={({ field }) => (
                         <FormItem>
                         <FormControl>
-                            <Input className="h-12" type="password" placeholder="Password" {...field} />
+                            <Input className="h-12 border-0 border-b-2 focus-visible:border-affirmative focus-visible:ring-0 rounded-xs" type="password" placeholder="Password" {...field} />
                         </FormControl>
                         <FormMessage className="text-destructive"/>
                         </FormItem>
@@ -126,13 +126,13 @@ export default function RegisterPage() {
                     render={({ field }) => (
                         <FormItem>
                         <FormControl>
-                            <Input className="h-12" type="password" placeholder="confirmPassword" {...field} />
+                            <Input className="h-12 border-0 border-b-2 focus-visible:border-affirmative focus-visible:ring-0 rounded-xs" type="password" placeholder="Confirm password" {...field} />
                         </FormControl>
                         <FormMessage className="text-destructive"/>
                         </FormItem>
                     )}
                 />
-                <Button type="submit" className="w-full h-12 cursor-pointer">
+                <Button type="submit" className="w-full h-12 cursor-pointer rounded-xs">
                     sign up
                 </Button>
             </form>
