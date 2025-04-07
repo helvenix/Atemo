@@ -47,7 +47,6 @@ import {
 } from "@/components/ui/tooltip"  
 import { toast } from "sonner";
 
-
 import {
     User, 
     ChevronsUpDown,
@@ -71,7 +70,8 @@ import {
     Calendar1,
     CalendarSync,
     MoreHorizontal,
-    CalendarCheck
+    CalendarCheck,
+    Copy
 } from "lucide-react"
 
 export function AppSidebar() {
@@ -571,8 +571,8 @@ export function AppSidebar() {
                                         <AvatarImage src="other/0088.jpg" />
                                         <AvatarFallback><User className="size-4"/></AvatarFallback>
                                     </Avatar>
-                                    <h1 className="absolute text-lg top-1 left-15">{user?.name}</h1>
-                                    <h2 className="absolute text-xs top-6.5 left-15">{user?.email}</h2>
+                                    <h1 className="absolute w-45 text-lg top-1 left-15 truncate">{user?.name}</h1>
+                                    <h2 className="absolute text-xs text-muted-foreground top-6.5 left-15">{String(user?.uid).padStart(4, "0")}</h2>
                                     <ChevronsUpDown className="absolute right-3"/>
                                 </SidebarMenuButton>
                             </DropdownMenuTrigger>
@@ -582,13 +582,20 @@ export function AppSidebar() {
                                         <AvatarImage src="other/0088.jpg" />
                                         <AvatarFallback><User className="size-4"/></AvatarFallback>
                                     </Avatar>
-                                    <h1 className="absolute text-lg top-1 left-15">{user?.name}</h1>
-                                    <h2 className="absolute text-xs top-6.5 left-15">{user?.email}</h2>
+                                    <h1 className="absolute w-42 text-lg top-1 left-15 truncate">{user?.name}</h1>
+                                    <h2 className="absolute text-xs text-muted-foreground top-6.5 left-15">{String(user?.uid).padStart(4, "0")}</h2>
                                 </DropdownMenuLabel>
                                 <DropdownMenuSeparator />
                                 <DropdownMenuItem>
                                     <User />
                                     <span>Account</span>
+                                </DropdownMenuItem>
+                                <DropdownMenuItem onClick={()=>{
+                                    navigator.clipboard.writeText(String(user?.uid).padStart(4, "0"));
+                                    toast.success("UID successfully copied to clipboard");
+                                }}>
+                                    <Copy />
+                                    <span>Copy UID</span>
                                 </DropdownMenuItem>
                                 <DropdownMenuSub>
                                     <DropdownMenuSubTrigger className="relative flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none">

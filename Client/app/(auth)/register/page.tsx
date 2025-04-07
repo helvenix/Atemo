@@ -17,9 +17,18 @@ import { toast } from "sonner";
 import Link from "next/link"
 
 const loginSchema = z.object({
-    name: z.string().min(1, {message: "name required"}),
-    email: z.string().min(1, { message: "email required" }),
-    password: z.string().min(1, { message: "Password required" }),
+    name: z
+        .string()
+        .min(1, {message: "name required"})
+        .max(15, {message: "Maximum 15 characters"}),
+    email: z
+        .string()
+        .min(1, { message: "email required" })
+        .email({message: "Invalid email address"}),
+    password: z
+        .string()
+        .min(1, { message: "Password required" })
+        .min(20, { message: "Password must be at least 8 characters" }),
     confirmPassword: z.string().min(1, { message: "Confirm password required" })
 })
 .refine((data) => data.password === data.confirmPassword, {
