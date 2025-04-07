@@ -97,7 +97,7 @@ export default function LoginPage() {
                     </Button>
                 </div>
                 <Button type="submit" className="w-full h-12 cursor-pointer">
-                    Login
+                    log in
                 </Button>
             </form>
             </Form>

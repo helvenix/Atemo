@@ -133,7 +133,7 @@ export default function LoginPage() {
                     )}
                 />
                 <Button type="submit" className="w-full h-12 cursor-pointer">
-                    Login
+                    sign up
                 </Button>
             </form>
             </Form>
