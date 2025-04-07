@@ -30,9 +30,10 @@ import {
     TooltipTrigger,
 } from "@/components/ui/tooltip"
 import { Progress } from "@/components/ui/progress";
+import { toast } from "sonner";
   
 
-import { CheckCheck, CircleSmall, Clock, PenLine, Trash2 } from "lucide-react";
+import { CheckCheck, CircleSmall, Clock, PartyPopper, PenLine, Trash2 } from "lucide-react";
 
 interface Task {
     _id: string;
@@ -46,69 +47,6 @@ interface Task {
     __v: number;
     completionDate: string;
 }
-
-const tasks: Task[] = [
-    {
-        _id: "67d64029adcc1811c223d988",
-        id: 26,
-        title: "Lab 2 DDAK",
-        start: "2025-03-14T17:00:00.000Z",
-        deadline: "2025-03-18T16:55:00.000Z",
-        notes: "",
-        completed: true,
-        createdAt: "2025-03-16T03:06:17.570Z",
-        __v: 0,
-        completionDate: "2025-03-18T10:38:52.784Z"
-    },
-    {
-        _id: "67d64029adcc1811c2be3988",
-        id: 27,
-        title: "Lab 3 DDAK",
-        start: "2025-03-14T17:00:00.000Z",
-        deadline: "2025-03-18T16:55:00.000Z",
-        notes: "",
-        completed: true,
-        createdAt: "2025-03-16T03:06:17.570Z",
-        __v: 0,
-        completionDate: "2025-03-18T10:38:52.784Z"
-    },
-    {
-        _id: "67d64090adcc1811c2be398b",
-        id: 28,
-        title: "Worksheet 07 MatDis 2",
-        start: "2025-03-15T14:20:00.000Z",
-        deadline: "2025-03-20T14:20:00.000Z",
-        notes: "",
-        completed: true,
-        createdAt: "2025-03-16T03:08:00.165Z",
-        __v: 0,
-        completionDate: "2025-03-19T17:58:59.959Z"
-    },
-    {
-        _id: "67d64141adcc1811c2be398e",
-        id: 29,
-        title: "Tugas Individu 2 PPSI",
-        start: "2025-03-14T04:25:00.000Z",
-        deadline: "2025-03-25T16:55:00.000Z",
-        notes: "",
-        completed: true,
-        createdAt: "2025-03-16T03:10:57.800Z",
-        __v: 0,
-        completionDate: "2025-03-25T12:05:28.276Z"
-    },
-    {
-        _id: "67e29c90cdadda589c449e31",
-        id: 30,
-        title: "Worksheet 8 MatDis 2",
-        start: "2025-03-22T03:01:00.000Z",
-        deadline: "2025-03-26T14:30:00.000Z",
-        notes: "",
-        completed: true,
-        createdAt: "2025-03-25T12:07:44.733Z",
-        __v: 0,
-        completionDate: "2025-03-26T13:46:19.363Z"
-    }
-]
 
 interface CardProps {
     task: Task;
@@ -133,7 +71,7 @@ function FocusCard({ task, className, style } : CardProps){
             <Progress className="absolute h-1 w-48 top-12.5 left-0 rounded-l-none" value={24} />
             <CardDescription>
                 <ScrollArea className="h-12 w-50 pr-1 absolute top-7 text-xs">
-                    It's completed at {task.completionDate}, which start at {task.start} and end at {task.deadline}
+                    {task.notes}
                 </ScrollArea>
             </CardDescription>
             <CardContent className="absolute right-2 p-0 top-2 bottom-2 flex items-center">
@@ -187,6 +125,7 @@ interface CarouselProps {
 }
 
 function TasksCarousel({tasks, hovered, focus}: CarouselProps){
+    if(tasks.length === 0) return <div className="flex m-0 p-0 gap-x-2"><span>no tasks for now</span><PartyPopper className="size-5"/></div>
     if(hovered){
         return(
             <div className="absolute w-full m-0 p-0" style={{top: `calc(50% + ${Math.ceil(tasks.length/2 - 1) - focus} * 2.5rem + ${tasks.length % 2 == 0 ? "1.25rem" : "0rem"})`, transform: "translateY(-50%)"}}>
@@ -218,10 +157,42 @@ function TasksCarousel({tasks, hovered, focus}: CarouselProps){
 }
 
 export function AppList(){
+    const [tasks, setTasks] = useState([])
     const [shown, setShown] = useState("all")
     const [sizes, setSizes] = useState([24, 24])
     const [hovered, setHovered] = useState(false)
-    const [focus, setFocus] = useState(Math.ceil(tasks.length/2 - 1))
+    const [focus, setFocus] = useState(0)
+
+    const fetchTasks = async() => {
+        try{
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/tasks/`, {
+                method: "GET",
+                credentials: 'include'
+            })
+            const data = await res.json();
+            if(res.ok){
+                setTasks(data)
+            }else{
+                setTasks([])
+            }
+        } catch(e){
+            toast.error("An error occurred", {
+                description: "Task can't be fetched.",
+            });
+        }
+    }
+
+    useEffect(() => {
+        fetchTasks()
+    }, [])
+
+    useEffect(() => {
+        if(tasks.length > 0){
+            setFocus(Math.ceil(tasks.length/2 - 1))
+        }else{
+            setFocus(0)
+        }
+    })
 
     const handleShown = (value: string) => {
         if(shown === value) value = "all";

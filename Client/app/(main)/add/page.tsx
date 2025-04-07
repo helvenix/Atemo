@@ -66,7 +66,6 @@ export default function AddPage() {
                 body: JSON.stringify(task),
                 credentials: 'include'
             });
-            const data = await res.json();
             if(res.ok){
                 toast.success("Task has been successfully added");
                 router.push("/");
