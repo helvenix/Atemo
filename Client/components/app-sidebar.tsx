@@ -71,9 +71,12 @@ import {
     CalendarCheck
 } from "lucide-react"
 
+import { useUser } from "@/components/user-context"
+
 
 export function AppSidebar() {
     const {theme, setTheme} = useTheme()
+    const { user } = useUser();
 
     return (
         <Sidebar>
@@ -552,8 +555,8 @@ export function AppSidebar() {
                                         <AvatarImage src="other/0088.jpg" />
                                         <AvatarFallback><User className="size-4"/></AvatarFallback>
                                     </Avatar>
-                                    <h1 className="absolute text-lg top-1 left-15">Helven</h1>
-                                    <h2 className="absolute text-xs top-6.5 left-15">helvenmarcia@gmail.com</h2>
+                                    <h1 className="absolute text-lg top-1 left-15">{user?.name}</h1>
+                                    <h2 className="absolute text-xs top-6.5 left-15">{user?.email}</h2>
                                     <ChevronsUpDown className="absolute right-3"/>
                                 </SidebarMenuButton>
                             </DropdownMenuTrigger>
@@ -563,8 +566,8 @@ export function AppSidebar() {
                                         <AvatarImage src="other/0088.jpg" />
                                         <AvatarFallback><User className="size-4"/></AvatarFallback>
                                     </Avatar>
-                                    <h1 className="absolute text-lg top-1 left-15">Helven</h1>
-                                    <h2 className="absolute text-xs top-6.5 left-15">helvenmarcia@gmail.com</h2>
+                                    <h1 className="absolute text-lg top-1 left-15">{user?.name}</h1>
+                                    <h2 className="absolute text-xs top-6.5 left-15">{user?.email}</h2>
                                 </DropdownMenuLabel>
                                 <DropdownMenuSeparator />
                                 <DropdownMenuItem>

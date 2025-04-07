@@ -1,6 +1,7 @@
 "use client"
 import React, { useEffect } from "react";
 import { useRouter } from 'next/navigation';
+import { useUser } from "./user-context";
 
 export default function Auth({
     children,
@@ -8,7 +9,8 @@ export default function Auth({
     children: React.ReactNode;
     }>){
     const router = useRouter();
-    
+    const { setUser } = useUser();
+
     useEffect(() => {
         async function fetchProfile(){
             try {
@@ -17,6 +19,7 @@ export default function Auth({
                 });
                 if(res.ok){
                     const data = await res.json();
+                    setUser(data);
                 }else{
                     router.push('/login');
                 }
@@ -25,7 +28,7 @@ export default function Auth({
             }
         } 
         fetchProfile();
-    }, [router]);
+    }, [router, setUser]);
 
     return <>{children}</>
 }
