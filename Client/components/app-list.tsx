@@ -1,6 +1,7 @@
 "use client"
 import React, { useEffect, useState } from "react";
 import { cn } from "@/lib/utils"; 
+import { format } from 'date-fns';
 
 import {
     Sidebar,
@@ -52,9 +53,12 @@ interface CardProps {
     task: Task;
     className?: string;
     style?: React.CSSProperties;
+    timeRemaining: string;
+    timeRatio: number;
+    urgent: boolean;
 }
 
-function FocusCard({ task, className, style } : CardProps){
+function FocusCard({ task, className, style, timeRemaining, timeRatio, urgent } : CardProps){
     return (
         <Card className={cn(
             className,
@@ -66,16 +70,19 @@ function FocusCard({ task, className, style } : CardProps){
                 {task.title}
             </CardHeader>
             <CardDescription>
-                <Clock className="absolute size-3 top-7.5" /> <span className="absolute top-7 left-6 text-[0.6rem]/4">March 30, 2025 | 23:59</span>
+                <Clock className="absolute size-3 top-7.5" /> <span className="absolute top-7 left-6 text-[0.6rem]/4">{format(new Date(task.deadline), "MMMM dd, yyyy | HH:mm")}</span>
             </CardDescription>
-            <Progress className="absolute h-1 w-48 top-12.5 left-0 rounded-l-none" value={24} />
+            <Progress className="absolute h-1 w-48 top-12.5 left-0 rounded-l-none" childClass={urgent ? "bg-destructive" : "bg-affirmative"} value={timeRatio*100} />
             <CardDescription>
                 <ScrollArea className="h-12 w-50 pr-1 absolute top-7 text-xs">
                     {task.notes}
                 </ScrollArea>
             </CardDescription>
             <CardContent className="absolute right-2 p-0 top-2 bottom-2 flex items-center">
-                <span className="absolute top-0 right-1 text-affirmative">024:23:40</span>
+                <span className={cn(
+                    "absolute top-0 right-1",
+                    (urgent ? "text-destructive" : "text-affirmative")
+                )}>{timeRemaining}</span>
                 <TooltipProvider delayDuration={12000}>
                     <Tooltip>
                         <TooltipTrigger asChild>
@@ -100,7 +107,7 @@ function FocusCard({ task, className, style } : CardProps){
     )
 }
 
-function MinimalCard({task, className, style}: CardProps){
+function MinimalCard({task, className, style, timeRemaining, urgent}: CardProps){
     return (
         <Card className={cn(
             className,
@@ -112,7 +119,10 @@ function MinimalCard({task, className, style}: CardProps){
                 {task.title}
             </CardHeader>
             <CardContent className="absolute right-2 p-0 top-2 bottom-2 flex items-center">
-                <span className="absolute top-0 right-1 text-affirmative">024:23:40</span>
+                <span className={cn(
+                    "absolute top-0 right-1",
+                    (urgent ? "text-destructive" : "text-affirmative")
+                )}>{timeRemaining}</span>
             </CardContent>
         </Card>
     )
@@ -122,34 +132,80 @@ interface CarouselProps {
     tasks: Task[];
     hovered: boolean;
     focus: number;
+    now: Date;
 }
 
-function TasksCarousel({tasks, hovered, focus}: CarouselProps){
+function TasksCarousel({tasks, hovered, focus, now}: CarouselProps){
     if(tasks.length === 0) return <div className="flex m-0 p-0 gap-x-2"><span>no tasks for now</span><PartyPopper className="size-5"/></div>
     if(hovered){
         return(
             <div className="absolute w-full m-0 p-0" style={{top: `calc(50% + ${Math.ceil(tasks.length/2 - 1) - focus} * 2.5rem + ${tasks.length % 2 == 0 ? "1.25rem" : "0rem"})`, transform: "translateY(-50%)"}}>
-                {tasks.map((task, index) =>
-                    index === focus ?
+                {tasks.map((task, index) => {
+                    const start = new Date(task.start)
+                    const deadline = new Date(task.deadline)
+                    const duration = Math.max(deadline.getTime() - start.getTime(), 1)
+
+                    const timeNumberRemaining = Math.max(deadline.getTime() - now.getTime(), 0) 
+                    const timeRatio = timeNumberRemaining/duration
+
+                    const seconds = Math.floor((timeNumberRemaining / 1000) % 60);
+                    const minutes = Math.floor((timeNumberRemaining / (1000 * 60)) % 60);
+                    const hours = Math.floor(timeNumberRemaining / (1000 * 60 * 60));
+
+                    const formattedHours = String(hours).padStart(3, '0');
+                    const formattedMinutes = String(minutes).padStart(2, '0');
+                    const formattedSeconds = String(seconds).padStart(2, '0');
+
+                    const timeStringRemaining = `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+                    return index === focus ?
                         <FocusCard 
                             key={task._id} 
                             task={task} 
+                            timeRemaining={timeStringRemaining}
+                            timeRatio={timeRatio}
+                            urgent={(hours < 24 || timeRatio < 0.25) ? true : false}
                         /> 
                         :
                         <MinimalCard 
                             key={task._id} 
                             task={task} 
                             className="opacity-24"
+                            timeRemaining={timeStringRemaining}
+                            timeRatio={timeRatio}
+                            urgent={(hours < 24 || timeRatio < 0.25) ? true : false}
                         />
-                )}
+                })}
             </div>
         )
     }
     return(
         <div className="w-full m-0 p-0">
             {tasks.map((task) => {
+                const start = new Date(task.start)
+                const deadline = new Date(task.deadline)
+                const duration = Math.max(deadline.getTime() - start.getTime(), 1)
+                
+                const timeNumberRemaining = Math.max(deadline.getTime() - now.getTime(), 0) 
+                const timeRatio = timeNumberRemaining/duration
+
+                const seconds = Math.floor((timeNumberRemaining / 1000) % 60);
+                const minutes = Math.floor((timeNumberRemaining / (1000 * 60)) % 60);
+                const hours = Math.floor(timeNumberRemaining / (1000 * 60 * 60));
+
+                const formattedHours = String(hours).padStart(3, '0');
+                const formattedMinutes = String(minutes).padStart(2, '0');
+                const formattedSeconds = String(seconds).padStart(2, '0');
+
+                const timeStringRemaining = `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+
                 return (
-                    <MinimalCard key={task._id} task={task}/>
+                    <MinimalCard 
+                        key={task._id} 
+                        task={task} 
+                        timeRemaining={timeStringRemaining} 
+                        timeRatio={timeRatio}
+                        urgent={(hours < 24 || timeRatio < 0.25) ? true : false}
+                    />
                 )
             })}
         </div>
@@ -162,6 +218,7 @@ export function AppList(){
     const [sizes, setSizes] = useState([24, 24])
     const [hovered, setHovered] = useState(false)
     const [focus, setFocus] = useState(0)
+    const [now, setNow] = useState(new Date())
 
     const fetchTasks = async() => {
         try{
@@ -184,6 +241,12 @@ export function AppList(){
 
     useEffect(() => {
         fetchTasks()
+
+        const countdownInterval = setInterval(() => {
+            setNow(new Date())
+        }, 1000)
+
+        return () => clearInterval(countdownInterval);
     }, [])
 
     useEffect(() => {
@@ -192,7 +255,7 @@ export function AppList(){
         }else{
             setFocus(0)
         }
-    })
+    }, [tasks])
 
     const handleShown = (value: string) => {
         if(shown === value) value = "all";
@@ -260,7 +323,7 @@ export function AppList(){
                             setFocus(Math.min(Math.max(0, focus + Math.round(e.deltaY * 0.006)), tasks.length -1))
                         }}
                     >
-                        <TasksCarousel tasks={tasks} hovered={hovered} focus={focus} />
+                        <TasksCarousel tasks={tasks} hovered={hovered} focus={focus} now={now} />
                     </ResizablePanel>
                     <ResizableHandle 
                         withHandle 

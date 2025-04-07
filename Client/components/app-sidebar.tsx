@@ -145,7 +145,9 @@ export function AppSidebar() {
                                 <TooltipProvider>
                                     <Tooltip>
                                         <TooltipTrigger asChild className="cursor-pointer w-full h-full flex items-center justify-center">
-                                            <Plus className="size-4"/>
+                                            <Link href='/add'>
+                                                <Plus className="size-4"/>
+                                            </Link>
                                         </TooltipTrigger>
                                         <TooltipContent>
                                             <span>Add Task</span>
@@ -177,8 +179,10 @@ export function AppSidebar() {
                                             </SidebarMenuButton>
                                         </SidebarMenuItem>
                                         <SidebarMenuItem>
-                                            <SidebarMenuButton className="text-affirmative hover:text-affirmative">
-                                                <CirclePlus /> <span>Add Task</span>
+                                            <SidebarMenuButton className="text-affirmative hover:text-affirmative" asChild>
+                                                <Link href='/add'>
+                                                    <CirclePlus /> <span>Add Task</span>
+                                                </Link>
                                             </SidebarMenuButton>
                                         </SidebarMenuItem>
                                     </SidebarMenu>
@@ -571,8 +575,8 @@ export function AppSidebar() {
                                         <AvatarImage src={user?.profilePicture} />
                                         <AvatarFallback><User className="size-4"/></AvatarFallback>
                                     </Avatar>
-                                    <h1 className="absolute w-45 text-lg top-1 left-15 truncate">{user?.name}</h1>
-                                    <h2 className="absolute text-xs text-muted-foreground top-6.5 left-15">{String(user?.uid).padStart(4, "0")}</h2>
+                                    <h1 className="absolute w-45 text-md top-1 left-15 truncate">{user?.name}</h1>
+                                    <h2 className="absolute text-xs text-muted-foreground top-6.5 left-15">UID : {String(user?.uid).padStart(4, "0")}</h2>
                                     <ChevronsUpDown className="absolute right-3"/>
                                 </SidebarMenuButton>
                             </DropdownMenuTrigger>
@@ -582,8 +586,8 @@ export function AppSidebar() {
                                         <AvatarImage src={user?.profilePicture} />
                                         <AvatarFallback><User className="size-4"/></AvatarFallback>
                                     </Avatar>
-                                    <h1 className="absolute w-42 text-lg top-1 left-15 truncate">{user?.name}</h1>
-                                    <h2 className="absolute text-xs text-muted-foreground top-6.5 left-15">{String(user?.uid).padStart(4, "0")}</h2>
+                                    <h1 className="absolute w-42 text-md top-1 left-15 truncate">{user?.name}</h1>
+                                    <h2 className="absolute text-xs text-muted-foreground top-6.5 left-15">UID : {String(user?.uid).padStart(4, "0")}</h2>
                                 </DropdownMenuLabel>
                                 <DropdownMenuSeparator />
                                 <DropdownMenuItem>
