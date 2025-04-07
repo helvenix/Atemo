@@ -13,8 +13,8 @@ import { auth } from '../middleware/auth.js'
 router.post('/register', registerUser);
 router.post('/login', loginUser);
 
-router.get('/me', authMiddleware, getMyProfile);
-router.put('/me', authMiddleware, updateMyProfile);
+router.get('/me', auth, getMyProfile);
+router.put('/me', auth, updateMyProfile);
 
 router.get('/:id', getUserProfile);
 

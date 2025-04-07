@@ -48,7 +48,8 @@ export default function LoginPage() {
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify(user)
+                body: JSON.stringify(user),
+                credentials: 'include'
             });
             const data = await res.json();
             if(res.ok){
