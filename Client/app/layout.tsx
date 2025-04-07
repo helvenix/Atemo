@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import React from "react";
 import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster } from "@/components/ui/sonner"
-import Auth from "@/components/auth";
 
 import "./globals.css";
 
@@ -30,9 +29,7 @@ export default function RootLayout({
                     disableTransitionOnChange
                 >
                     <main className="w-screen h-screen">
-                        <Auth>
-                            {children}
-                        </Auth>
+                        {children}
                     </main>
                     <Toaster 
                         position="top-center"
