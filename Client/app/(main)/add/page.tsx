@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
-import Link from "next/link"
+import { useTasks } from "@/components/task-context";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -47,6 +47,7 @@ const taskSchema = z.object({
 type TaskFormValues = z.infer<typeof taskSchema>;
 
 export default function AddPage() {
+    const { addTask } = useTasks();
     const router = useRouter();
     const form = useForm<TaskFormValues>({
         resolver: zodResolver(taskSchema),
@@ -67,6 +68,8 @@ export default function AddPage() {
                 credentials: 'include'
             });
             if(res.ok){
+                const data = await res.json();
+                addTask(data.task)
                 toast.success("Task has been successfully added");
                 router.push("/");
             }else{
