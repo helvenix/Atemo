@@ -58,25 +58,23 @@ export default function AddPage() {
 
     async function onSubmit(task: TaskFormValues) { 
         try{
-            // const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/register`, {
-            //     method: "POST",
-            //     headers: {
-            //         "Content-Type": "application/json"
-            //     },
-            //     body: JSON.stringify(user),
-            //     credentials: 'include'
-            // });
-            // const data = await res.json();
-            // if(res.ok){
-            //     toast.success("Sign up successful", {
-            //         description: `Welcome ${data.user.name}`
-            //     });
-            //     router.push("/");
-            // }else{
-            //     toast.error("Sign up failed", {
-            //         description: data.message,
-            //     });
-            // }
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/tasks/`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(task),
+                credentials: 'include'
+            });
+            const data = await res.json();
+            if(res.ok){
+                toast.success("Task has been successfully added");
+                router.push("/");
+            }else{
+                toast.error("An error occurred", {
+                    description: "Please try again later.",
+                });
+            }
         } catch (e){
             toast.error("An error occurred", {
                 description: "Please try again later.",
