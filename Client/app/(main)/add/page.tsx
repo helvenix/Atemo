@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -84,6 +85,22 @@ export default function AddPage() {
         }
     }
 
+    const [ popoverSide, setPopoverSide ] = useState<"top" | "right">("right")
+    useEffect(() => {
+        const handleResize = () => {
+            if(window.innerWidth < 944){
+                setPopoverSide("top");
+            }else{
+                setPopoverSide("right")
+            }
+        }
+        window.addEventListener("resize", handleResize);
+        handleResize();
+        return () => {
+            window.removeEventListener("resize", handleResize);
+        }
+      }, [setPopoverSide])
+
   return (
     <div className="flex flex-col h-full w-full items-center justify-center bg-background">
         <h2 className="text-3xl font-bold text-center">Create Task</h2>
@@ -139,7 +156,7 @@ export default function AddPage() {
                                 </Button>
                             </PopoverTrigger>
                             </FormControl>
-                            <PopoverContent className="w-70 p-auto rounded-xs" side="right">
+                            <PopoverContent className="w-70 p-auto rounded-xs" side={popoverSide}>
                             <Calendar
                                 mode="single"
                                 selected={field.value}
@@ -182,7 +199,7 @@ export default function AddPage() {
                                 </Button>
                             </PopoverTrigger>
                             </FormControl>
-                            <PopoverContent className="w-70 p-auto rounded-xs" side="right">
+                            <PopoverContent className="w-70 p-auto rounded-xs" side={window.innerWidth < 976 ? "top" : "right"}>
                             <Calendar
                                 mode="single"
                                 selected={field.value}
