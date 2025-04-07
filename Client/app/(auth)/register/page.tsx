@@ -28,7 +28,7 @@ const registerSchema = z.object({
     password: z
         .string()
         .min(1, { message: "Password required" })
-        .min(20, { message: "Password must be at least 8 characters" }),
+        .min(8, { message: "Password must be at least 8 characters" }),
     confirmPassword: z.string().min(1, { message: "Confirm password required" })
 })
 .refine((data) => data.password === data.confirmPassword, {
