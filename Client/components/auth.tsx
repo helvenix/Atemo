@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from 'next/navigation';
 import { useUser } from "./user-context";
 
@@ -10,6 +10,7 @@ export default function Auth({
     }>){
     const router = useRouter();
     const { setUser } = useUser();
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         async function fetchProfile(){
@@ -20,6 +21,7 @@ export default function Auth({
                 if(res.ok){
                     const data = await res.json();
                     setUser(data);
+                    setLoading(false)
                 }else{
                     router.push('/login');
                 }
@@ -30,5 +32,8 @@ export default function Auth({
         fetchProfile();
     }, [router, setUser]);
 
+    if(loading) return <div className="text-xl w-full h-full flex justify-center items-center">Loading...</div>
+
     return <>{children}</>
+
 }

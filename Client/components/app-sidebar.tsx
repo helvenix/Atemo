@@ -1,6 +1,8 @@
 "use client"
 import * as React from "react"
 import { useTheme } from "next-themes"
+import { useUser } from "@/components/user-context"
+import { useRouter } from "next/navigation"
 
 import {
     Sidebar,
@@ -43,6 +45,7 @@ import {
     TooltipProvider,
     TooltipTrigger,
 } from "@/components/ui/tooltip"  
+import { toast } from "sonner";
 
 
 import {
@@ -71,12 +74,25 @@ import {
     CalendarCheck
 } from "lucide-react"
 
-import { useUser } from "@/components/user-context"
-
-
 export function AppSidebar() {
-    const {theme, setTheme} = useTheme()
-    const { user } = useUser();
+    const router = useRouter();
+    const {theme, setTheme} = useTheme();
+    const { user, setUser } = useUser();
+
+    const handleLogout = async () => {
+        try {
+            await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/logout`, {
+                method: 'POST',
+                credentials: 'include'
+            });
+            setUser(null);
+            router.push("/login")
+        } catch(e){
+            toast.error("An error occurred", {
+                description: "Please try again later.",
+            });
+        }
+    }
 
     return (
         <Sidebar>
@@ -607,7 +623,7 @@ export function AppSidebar() {
                                     <span>Send Feedback</span>
                                 </DropdownMenuItem>
                                 <DropdownMenuSeparator />
-                                <DropdownMenuItem>
+                                <DropdownMenuItem onClick={handleLogout}>
                                     <LogOut className="text-destructive"/>
                                     <span className="text-destructive">Log out</span>
                                 </DropdownMenuItem>
