@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { cn } from "@/lib/utils"; 
 import { format } from 'date-fns';
+import { useTasks } from "@/components/task-context";
 
 import {
     Sidebar,
@@ -36,18 +37,16 @@ import { toast } from "sonner";
 
 import { CheckCheck, CircleSmall, Clock, PartyPopper, PenLine, Trash2 } from "lucide-react";
 
-interface Task {
+type Task = {
     _id: string;
-    id: number;
+    userID: string;
     title: string;
+    notes?: string;
     start: string;
     deadline: string;
-    notes: string;
-    completed: boolean;
-    createdAt: string;
-    __v: number;
-    completionDate: string;
-}
+    completedStatus?: boolean;
+    completionDate?: string;
+};
 
 interface CardProps {
     task: Task;
@@ -213,7 +212,7 @@ function TasksCarousel({tasks, hovered, focus, now}: CarouselProps){
 }
 
 export function AppList(){
-    const [tasks, setTasks] = useState([])
+    const { tasks, setTasks } = useTasks()
     const [shown, setShown] = useState("all")
     const [sizes, setSizes] = useState([24, 24])
     const [hovered, setHovered] = useState(false)
