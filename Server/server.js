@@ -21,8 +21,10 @@ mongoose.connect(MONGO_URI)
 .catch((err) => console.error('MongoDB connection error: ', err));
 
 import userRoutes from './routes/users.js'
+import taskRoutes from './routes/tasks.js'
 
 app.use('/api/users', userRoutes);
+app.use('/api/tasks', taskRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

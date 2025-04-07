@@ -568,7 +568,7 @@ export function AppSidebar() {
                             <DropdownMenuTrigger asChild>
                                 <SidebarMenuButton className="h-12 relative cursor-pointer">
                                     <Avatar className="absolute top-2 left-3 rounded-md">
-                                        <AvatarImage src="other/0088.jpg" />
+                                        <AvatarImage src={user?.profilePicture} />
                                         <AvatarFallback><User className="size-4"/></AvatarFallback>
                                     </Avatar>
                                     <h1 className="absolute w-45 text-lg top-1 left-15 truncate">{user?.name}</h1>
@@ -579,7 +579,7 @@ export function AppSidebar() {
                             <DropdownMenuContent side="right" className="w-60 mb-4">
                                 <DropdownMenuLabel className="relative h-12">
                                     <Avatar className="absolute top-2 left-3">
-                                        <AvatarImage src="other/0088.jpg" />
+                                        <AvatarImage src={user?.profilePicture} />
                                         <AvatarFallback><User className="size-4"/></AvatarFallback>
                                     </Avatar>
                                     <h1 className="absolute w-42 text-lg top-1 left-15 truncate">{user?.name}</h1>
