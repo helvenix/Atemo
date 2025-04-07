@@ -79,10 +79,10 @@ export const loginUser = async (req, res) => {
 
 export const getMyProfile = async (req, res) => {
     try {
-        if(!req.user || !req.user.id){
+        if(!req.user || !req.user.userId){
             return res.status(401).json({message: "Not authenticated"});
         }
-        const user = await User.findById(req.user.id).select("-password");
+        const user = await User.findById(req.user.userId).select("-password");
         res.status(200).json(user);
     } catch (e){
         res.status(500).json({message: e.message})
