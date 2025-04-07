@@ -16,7 +16,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import Link from "next/link"
 
-const loginSchema = z.object({
+const registerSchema = z.object({
     name: z
         .string()
         .min(1, {message: "name required"})
@@ -36,12 +36,12 @@ const loginSchema = z.object({
     path: ["confirmPassword"]
 });
 
-type LoginFormValues = z.infer<typeof loginSchema>;
+type RegisterFormValues = z.infer<typeof registerSchema>;
 
-export default function LoginPage() {
+export default function RegisterPage() {
     const router = useRouter();
-    const form = useForm<LoginFormValues>({
-        resolver: zodResolver(loginSchema),
+    const form = useForm<RegisterFormValues>({
+        resolver: zodResolver(registerSchema),
         defaultValues: {
             name: "",
             email: "",
@@ -50,7 +50,7 @@ export default function LoginPage() {
         },
     });
 
-    async function onSubmit(user: LoginFormValues) { 
+    async function onSubmit(user: RegisterFormValues) { 
         try{
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/register`, {
                 method: "POST",
