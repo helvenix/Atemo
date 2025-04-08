@@ -428,7 +428,7 @@ function TasksCarousel({tasks, hovered, setHovered, focus, now}: CarouselProps){
     if(tasks.length === 0) return <div className="flex m-0 p-0 gap-x-2"><span>no tasks for now</span><PartyPopper className="size-5"/></div>
     if(hovered){
         return(
-            <div className="absolute w-full m-0 p-0" style={{top: `calc(50% + ${Math.ceil(tasks.length/2 - 1) - focus} * 2.5rem + ${tasks.length % 2 == 0 ? "1.25rem" : "0rem"})`, transform: "translateY(-50%)"}}>
+            <div className="absolute w-full m-0 p-0 border border-l-0 border-r-0 border-border/24" style={{top: `calc(50% + ${Math.ceil(tasks.length/2 - 1) - focus} * 2.5rem + ${tasks.length % 2 == 0 ? "1.25rem" : "0rem"})`, transform: "translateY(-50%)"}}>
                 {tasks.map((task, index) => {
                     const start = new Date(task.start)
                     const deadline = new Date(task.deadline)
@@ -470,7 +470,7 @@ function TasksCarousel({tasks, hovered, setHovered, focus, now}: CarouselProps){
         )
     }
     return(
-        <div className="w-full m-0 p-0">
+        <div className="w-full m-0 p-0 border border-l-0 border-r-0">
             {tasks.map((task) => {
                 const start = new Date(task.start)
                 const deadline = new Date(task.deadline)
