@@ -136,14 +136,14 @@ export default function AddPage() {
                     name="start"
                     render={({ field }) => (
                         <FormItem className="flex">
-                        <FormLabel className="text-left w-18">start</FormLabel>
+                        <FormLabel className="text-left w-18 cursor-pointer">start</FormLabel>
                         <Popover>
                             <FormControl>
                             <PopoverTrigger asChild>
                                 <Button
                                     variant="outline"
                                     className={cn(
-                                        "w-70 justify-start text-left font-normal rounded-xs",
+                                        "w-70 justify-start text-left font-normal rounded-xs cursor-pointer",
                                         !field.value && "text-muted-foreground"
                                     )}
                                 >
@@ -179,14 +179,14 @@ export default function AddPage() {
                     name="deadline"
                     render={({ field }) => (
                         <FormItem className="flex">
-                        <FormLabel className="text-left w-18">deadline</FormLabel>
+                        <FormLabel className="text-left w-18 cursor-pointer">deadline</FormLabel>
                         <Popover>
                             <FormControl>
                             <PopoverTrigger asChild>
                                 <Button
                                     variant="outline"
                                     className={cn(
-                                        "w-70 justify-start text-left font-normal rounded-xs",
+                                        "w-70 justify-start text-left font-normal rounded-xs cursor-pointer",
                                         !field.value && "text-muted-foreground"
                                     )}
                                 >
