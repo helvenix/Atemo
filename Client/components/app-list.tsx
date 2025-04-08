@@ -33,6 +33,17 @@ import {
 } from "@/components/ui/tooltip"
 import { Progress } from "@/components/ui/progress";
 import { toast } from "sonner";
+import {
+    Dialog,
+    DialogClose,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog"
+  
   
 
 import { CheckCheck, CircleSmall, Clock, PartyPopper, PenLine, Trash2 } from "lucide-react";
@@ -58,11 +69,33 @@ interface CardProps {
 }
 
 function FocusCard({ task, className, style, timeRemaining, timeRatio, urgent } : CardProps){
+    const { removeTask } = useTasks()
+    const handleDelete = async (task: Task) => {
+        try{
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/tasks/${task._id}`, {
+                method: "DELETE",
+                credentials: 'include'
+            });
+            if(res.ok){
+                removeTask(task._id)
+                toast.success("Task has been successfully deleted");
+            }else{
+                toast.error("An error occurred", {
+                    description: "Please try again later.",
+                });
+            }
+        }catch(e){
+            toast.error("An error occurred", {
+                description: "Please try again later.",
+            });
+        }
+    }
+
     return (
         <Card className={cn(
-            className,
-            "relative h-30 p-2 shadow-xs bg-background w-full border-l-0 border-r-0 border-primary rounded-none"
-        )}
+                className,
+                "relative h-30 p-2 shadow-xs bg-background w-full border-l-0 border-r-0 border-primary rounded-none"
+            )}
             style={style}
         >
             <CardHeader className="w-full text-sm absolute p-0">
@@ -93,7 +126,35 @@ function FocusCard({ task, className, style, timeRemaining, timeRatio, urgent } 
                 <TooltipProvider delayDuration={12000}>
                     <Tooltip>
                         <TooltipTrigger asChild>
-                            <Trash2 className="absolute bottom-0 right-0 size-6 p-1 text-muted-foreground hover:text-destructive cursor-pointer"/> 
+                            <Dialog>
+                                <DialogTrigger>
+                                    <Trash2 className="absolute bottom-0 right-0 size-6 p-1 text-muted-foreground hover:text-destructive cursor-pointer"/> 
+                                </DialogTrigger>
+                                <DialogContent className="w-96 rounded-xs">
+                                    <DialogHeader>
+                                        <DialogTitle>Delete Task?</DialogTitle>
+                                        <DialogDescription>
+                                        Are you sure you want to delete {task.title}?<br/> This action cannot be undone.
+                                        </DialogDescription>
+                                    </DialogHeader>
+                                    <DialogFooter>
+                                        <DialogClose asChild>
+                                            <Button className="cursor-pointer rounded-xs" type="button" variant="secondary">
+                                                Cancel
+                                            </Button>
+                                        </DialogClose>
+                                        <DialogClose asChild>
+                                            <Button 
+                                                className="cursor-pointer rounded-xs" 
+                                                type="button" variant="destructive"
+                                                onClick={() => handleDelete(task)}
+                                            >
+                                                Delete
+                                            </Button>
+                                        </DialogClose>
+                                    </DialogFooter>
+                                </DialogContent>
+                            </Dialog>
                         </TooltipTrigger>
                         <TooltipContent side="left"><span>delete</span></TooltipContent>
                     </Tooltip>

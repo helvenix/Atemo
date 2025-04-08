@@ -15,7 +15,7 @@ router.use(auth);
 router.post('/', createTask);
 
 router.get('/', getTasks);
-router.get(':id', getTaskById);
+router.get('/:id', getTaskById);
 
 router.put('/:id', updateTask);
 
