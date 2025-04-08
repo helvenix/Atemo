@@ -41,11 +41,11 @@ export const getTaskById = async (req, res) => {
 
 export const updateTask = async (req, res) => {
     try {
-        const { title, notes, start, deadline } = req.body;
+        const { title, notes, start, deadline, completedStatus } = req.body;
 
         const task = await Task.findOneAndUpdate(
             { _id: req.params.id, userID: req.user.userId },
-            { title, notes, start, deadline, updatedAt: Date.now() },
+            { title, notes, start, deadline, completedStatus, updatedAt: Date.now() },
             { new: true }
         );
 

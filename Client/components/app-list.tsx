@@ -77,7 +77,8 @@ const taskSchema = z.object({
     deadline: z
         .date({
             required_error: "Deadline time required"
-        })
+        }),
+    completedStatus: z.boolean()
 })
 
 type TaskFormValues = z.infer<typeof taskSchema>;
@@ -112,7 +113,8 @@ function FocusCard({ task, className, style, timeRemaining, timeRatio, urgent, s
                 title: task.title,
                 notes: task.notes,
                 start: new Date(task.start),
-                deadline: new Date(task.deadline)
+                deadline: new Date(task.deadline),
+                completedStatus: task.completedStatus
             },
     });
 
@@ -167,6 +169,35 @@ function FocusCard({ task, className, style, timeRemaining, timeRatio, urgent, s
                 const data = await res.json();
                 updateTask(data.task);
                 toast.success("Task has been successfully edited");
+            }else{
+                toast.error("An error occurred", {
+                    description: "Please try again later.",
+                });
+            }
+        }catch(e){
+            toast.error("An error occurred", {
+                description: "Please try again later.",
+            });
+        }
+    }
+
+    const handleMarkAsDone = async (task: Task) => {
+        try{
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/tasks/${task._id}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    ...task,
+                    completedStatus: true
+                }),
+                credentials: 'include'
+            });
+            if(res.ok){
+                const data = await res.json();
+                updateTask(data.task);
+                toast.success("Task has been successfully marked as done");
             }else{
                 toast.error("An error occurred", {
                     description: "Please try again later.",
@@ -388,9 +419,37 @@ function FocusCard({ task, className, style, timeRemaining, timeRatio, urgent, s
                     </Tooltip>
                 </TooltipProvider>
             </CardContent>
-            <CardContent className="absolute duration-240 cursor-pointer p-0 top-10 bottom-10 right-0 w-18 border border-r-0 rounded-full rounded-r-none hover:bg-affirmative flex items-center justify-center">
-                <CheckCheck className="size-4" />
-            </CardContent>
+            <Dialog>
+                <DialogTrigger asChild>
+                    <CardContent className="absolute duration-240 cursor-pointer p-0 top-10 bottom-10 right-0 w-18 border border-r-0 rounded-full rounded-r-none hover:bg-affirmative flex items-center justify-center">
+                        <CheckCheck className="size-4" />
+                    </CardContent>
+                </DialogTrigger>
+                <DialogContent className="w-96 rounded-xs" onCloseAutoFocus={() => setHovered(false)}>
+                    <DialogHeader>
+                        <DialogTitle>Mark as done?</DialogTitle>
+                        <DialogDescription>
+                            Mark {task.title} as done?<br/>This action cannot be undone.
+                        </DialogDescription>
+                    </DialogHeader>
+                    <DialogFooter>
+                        <DialogClose asChild>
+                            <Button className="cursor-pointer rounded-xs" type="button" variant="secondary">
+                                Cancel
+                            </Button>
+                        </DialogClose>
+                        <DialogClose asChild>
+                            <Button 
+                                className="cursor-pointer rounded-xs" 
+                                type="button" variant="default"
+                                onClick={() => handleMarkAsDone(task)}
+                            >
+                                Mark as done
+                            </Button>
+                        </DialogClose>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
         </Card>
     )
 }
@@ -615,7 +674,7 @@ export function AppList(){
                             setFocus(Math.min(Math.max(0, focus + Math.round(e.deltaY * 0.006)), tasks.length -1))
                         }}
                     >
-                        <TasksCarousel tasks={tasks} hovered={hovered} setHovered={setHovered} focus={focus} now={now} />
+                        <TasksCarousel tasks={tasks.filter(task => task.completedStatus === false)} hovered={hovered} setHovered={setHovered} focus={focus} now={now} />
                     </ResizablePanel>
                     <ResizableHandle 
                         withHandle 
