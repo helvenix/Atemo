@@ -421,7 +421,10 @@ function FocusCard({ task, className, style, timeRemaining, timeRatio, urgent, s
             </CardContent>
             <Dialog>
                 <DialogTrigger asChild>
-                    <CardContent className="absolute duration-240 cursor-pointer p-0 top-10 bottom-10 right-0 w-18 border border-r-0 rounded-full rounded-r-none hover:bg-affirmative flex items-center justify-center">
+                    <CardContent className={cn(
+                        "absolute duration-240 cursor-pointer p-0 top-10 bottom-10 right-0 w-18 border border-r-0 rounded-full rounded-r-none flex items-center justify-center",
+                        urgent ? "hover:bg-destructive" : "hover:bg-affirmative"
+                    )}>
                         <CheckCheck className="size-4" />
                     </CardContent>
                 </DialogTrigger>
