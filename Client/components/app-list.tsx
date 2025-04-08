@@ -3,6 +3,9 @@ import React, { useEffect, useState } from "react";
 import { cn } from "@/lib/utils"; 
 import { format } from 'date-fns';
 import { useTasks } from "@/components/task-context";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
 import {
     Sidebar,
@@ -43,10 +46,41 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
-  
-  
+import { Textarea } from "@/components/ui/textarea";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import {
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Calendar } from "@/components/ui/calendar";
+import { TimePicker } from "@/components/time-picker";
 
-import { CheckCheck, CircleSmall, Clock, PartyPopper, PenLine, Trash2 } from "lucide-react";
+import { Calendar as CalendarIcon, CheckCheck, CircleSmall, Clock, PartyPopper, PenLine, Trash2 } from "lucide-react";
+
+const taskSchema = z.object({
+    _id: z.string(),
+    title: z
+        .string()
+        .min(1, {message: "title required"})
+        .max(24, {message: "Maximum 24 characters"}),
+    notes: z
+        .string(),
+    start: z
+        .date({
+            required_error: "Starting time required"
+        }),
+    deadline: z
+        .date({
+            required_error: "Deadline time required"
+        })
+})
+
+type TaskFormValues = z.infer<typeof taskSchema>;
 
 type Task = {
     _id: string;
@@ -66,10 +100,38 @@ interface CardProps {
     timeRemaining: string;
     timeRatio: number;
     urgent: boolean;
+    setHovered: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function FocusCard({ task, className, style, timeRemaining, timeRatio, urgent } : CardProps){
-    const { removeTask } = useTasks()
+function FocusCard({ task, className, style, timeRemaining, timeRatio, urgent, setHovered } : CardProps){
+    const { updateTask, removeTask } = useTasks()
+    const form = useForm<TaskFormValues>({
+            resolver: zodResolver(taskSchema),
+            defaultValues: {
+                _id: task._id,
+                title: task.title,
+                notes: task.notes,
+                start: new Date(task.start),
+                deadline: new Date(task.deadline)
+            },
+    });
+
+    const [ popoverSide, setPopoverSide ] = useState<"top" | "right">("right")
+    useEffect(() => {
+        const handleResize = () => {
+            if(window.innerWidth < 944){
+                setPopoverSide("top");
+            }else{
+                setPopoverSide("right")
+            }
+        }
+        window.addEventListener("resize", handleResize);
+        handleResize();
+        return () => {
+            window.removeEventListener("resize", handleResize);
+        }
+    }, [setPopoverSide])
+    
     const handleDelete = async (task: Task) => {
         try{
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/tasks/${task._id}`, {
@@ -79,6 +141,32 @@ function FocusCard({ task, className, style, timeRemaining, timeRatio, urgent } 
             if(res.ok){
                 removeTask(task._id)
                 toast.success("Task has been successfully deleted");
+            }else{
+                toast.error("An error occurred", {
+                    description: "Please try again later.",
+                });
+            }
+        }catch(e){
+            toast.error("An error occurred", {
+                description: "Please try again later.",
+            });
+        }
+    }
+
+    const handleEdit = async (task: TaskFormValues) => {
+        try{
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/tasks/${task._id}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(task),
+                credentials: 'include'
+            });
+            if(res.ok){
+                const data = await res.json();
+                updateTask(data.task);
+                toast.success("Task has been successfully edited");
             }else{
                 toast.error("An error occurred", {
                     description: "Please try again later.",
@@ -118,7 +206,147 @@ function FocusCard({ task, className, style, timeRemaining, timeRatio, urgent } 
                 <TooltipProvider delayDuration={12000}>
                     <Tooltip>
                         <TooltipTrigger asChild>
-                            <PenLine className="absolute bottom-0 right-8 size-6 p-1 text-muted-foreground hover:text-affirmative cursor-pointer"/> 
+                        <Dialog>
+                                <DialogTrigger>
+                                    <PenLine className="absolute bottom-0 right-8 size-6 p-1 text-muted-foreground hover:text-affirmative cursor-pointer"/> 
+                                </DialogTrigger>
+                                <DialogContent className="rounded-xs p-8 w-104" onCloseAutoFocus={() => setHovered(false)}>
+                                    <DialogHeader>
+                                        <DialogTitle>Edit Task</DialogTitle>
+                                    </DialogHeader>
+                                    <div className="w-88 rounded-xs">
+                                        <Form {...form}>
+                                        <form onSubmit={form.handleSubmit(handleEdit)} className="space-y-4">
+                                            <FormField
+                                                control={form.control}
+                                                name="title"
+                                                render={({ field }) => (
+                                                    <FormItem>
+                                                    <FormControl>
+                                                        <Input className="h-12 border-0 border-b-2 focus-visible:border-affirmative focus-visible:ring-0 rounded-xs" placeholder="title" {...field} />
+                                                    </FormControl>
+                                                    <FormMessage className="text-destructive"/>
+                                                    </FormItem>
+                                                )}
+                                            />
+                                            <FormField
+                                                control={form.control}
+                                                name="notes"
+                                                render={({ field }) => (
+                                                    <FormItem>
+                                                    <FormControl>
+                                                        <Textarea className="h-24 border-0 border-b-2 focus-visible:border-affirmative focus-visible:ring-0 rounded-xs max-h-48" placeholder="notes (optional)" {...field} />
+                                                    </FormControl>
+                                                    <FormMessage className="text-destructive"/>
+                                                    </FormItem>
+                                                )}
+                                            />
+                                            <FormField
+                                                control={form.control}
+                                                name="start"
+                                                render={({ field }) => (
+                                                    <FormItem className="flex">
+                                                    <FormLabel className="text-left w-18">start</FormLabel>
+                                                    <Popover>
+                                                        <FormControl>
+                                                        <PopoverTrigger asChild>
+                                                            <Button
+                                                                variant="outline"
+                                                                className={cn(
+                                                                    "w-70 justify-start text-left font-normal rounded-xs",
+                                                                    !field.value && "text-muted-foreground"
+                                                                )}
+                                                            >
+                                                                <CalendarIcon className="mr-2 h-4 w-4" />
+                                                                {field.value ? (
+                                                                    format(field.value, "PPP HH:mm:ss")
+                                                                ) : (
+                                                                    <span>Pick a date</span>
+                                                                )}
+                                                            </Button>
+                                                        </PopoverTrigger>
+                                                        </FormControl>
+                                                        <PopoverContent className="w-70 p-auto rounded-xs" side={popoverSide}>
+                                                        <Calendar
+                                                            mode="single"
+                                                            selected={field.value}
+                                                            onSelect={field.onChange}
+                                                            initialFocus
+                                                        />
+                                                        <div className="p-3 border-t border-border">
+                                                            <TimePicker
+                                                                setDate={field.onChange}
+                                                                date={field.value}
+                                                            />
+                                                        </div>
+                                                        </PopoverContent>
+                                                    </Popover>
+                                                    </FormItem>
+                                                )}
+                                            />
+                                            <FormField
+                                                control={form.control}
+                                                name="deadline"
+                                                render={({ field }) => (
+                                                    <FormItem className="flex">
+                                                    <FormLabel className="text-left w-18">deadline</FormLabel>
+                                                    <Popover>
+                                                        <FormControl>
+                                                        <PopoverTrigger asChild>
+                                                            <Button
+                                                                variant="outline"
+                                                                className={cn(
+                                                                    "w-70 justify-start text-left font-normal rounded-xs",
+                                                                    !field.value && "text-muted-foreground"
+                                                                )}
+                                                            >
+                                                                <CalendarIcon className="mr-2 h-4 w-4" />
+                                                                {field.value ? (
+                                                                    format(field.value, "PPP HH:mm:ss")
+                                                                ) : (
+                                                                    <span>Pick a date</span>
+                                                                )}
+                                                            </Button>
+                                                        </PopoverTrigger>
+                                                        </FormControl>
+                                                        <PopoverContent className="w-70 p-auto rounded-xs" side={window.innerWidth < 976 ? "top" : "right"}>
+                                                        <Calendar
+                                                            mode="single"
+                                                            selected={field.value}
+                                                            onSelect={field.onChange}
+                                                            initialFocus
+                                                        />
+                                                        <div className="p-3 border-t border-border">
+                                                            <TimePicker
+                                                                setDate={field.onChange}
+                                                                date={field.value}
+                                                            />
+                                                        </div>
+                                                        </PopoverContent>
+                                                    </Popover>
+                                                    </FormItem>
+                                                )}
+                                            />
+                                            <DialogFooter>
+                                                <DialogClose asChild>
+                                                    <Button className="cursor-pointer rounded-xs" type="button" variant="secondary">
+                                                        Cancel
+                                                    </Button>
+                                                </DialogClose>
+                                                <DialogClose asChild>
+                                                    <Button 
+                                                        className="cursor-pointer rounded-xs w-18" 
+                                                        type="submit" variant="default"
+                                                    >
+                                                        Edit
+                                                    </Button>
+                                                </DialogClose>
+                                            </DialogFooter>
+                                        </form>
+                                        </Form>
+                                    </div>
+                                </DialogContent>
+                            </Dialog>
                         </TooltipTrigger>
                         <TooltipContent side="left"><span>edit</span></TooltipContent>
                     </Tooltip>
@@ -130,11 +358,11 @@ function FocusCard({ task, className, style, timeRemaining, timeRatio, urgent } 
                                 <DialogTrigger>
                                     <Trash2 className="absolute bottom-0 right-0 size-6 p-1 text-muted-foreground hover:text-destructive cursor-pointer"/> 
                                 </DialogTrigger>
-                                <DialogContent className="w-96 rounded-xs">
+                                <DialogContent className="w-96 rounded-xs" onCloseAutoFocus={() => setHovered(false)}>
                                     <DialogHeader>
                                         <DialogTitle>Delete Task?</DialogTitle>
                                         <DialogDescription>
-                                        Are you sure you want to delete {task.title}?<br/> This action cannot be undone.
+                                            Are you sure you want to delete {task.title}?<br/>This action cannot be undone.
                                         </DialogDescription>
                                     </DialogHeader>
                                     <DialogFooter>
@@ -191,11 +419,12 @@ function MinimalCard({task, className, style, timeRemaining, urgent}: CardProps)
 interface CarouselProps {
     tasks: Task[];
     hovered: boolean;
+    setHovered: React.Dispatch<React.SetStateAction<boolean>>;
     focus: number;
     now: Date;
 }
 
-function TasksCarousel({tasks, hovered, focus, now}: CarouselProps){
+function TasksCarousel({tasks, hovered, setHovered, focus, now}: CarouselProps){
     if(tasks.length === 0) return <div className="flex m-0 p-0 gap-x-2"><span>no tasks for now</span><PartyPopper className="size-5"/></div>
     if(hovered){
         return(
@@ -224,6 +453,7 @@ function TasksCarousel({tasks, hovered, focus, now}: CarouselProps){
                             timeRemaining={timeStringRemaining}
                             timeRatio={timeRatio}
                             urgent={(hours < 24 || timeRatio < 0.25) ? true : false}
+                            setHovered={setHovered}
                         /> 
                         :
                         <MinimalCard 
@@ -233,6 +463,7 @@ function TasksCarousel({tasks, hovered, focus, now}: CarouselProps){
                             timeRemaining={timeStringRemaining}
                             timeRatio={timeRatio}
                             urgent={(hours < 24 || timeRatio < 0.25) ? true : false}
+                            setHovered={setHovered}
                         />
                 })}
             </div>
@@ -265,6 +496,7 @@ function TasksCarousel({tasks, hovered, focus, now}: CarouselProps){
                         timeRemaining={timeStringRemaining} 
                         timeRatio={timeRatio}
                         urgent={(hours < 24 || timeRatio < 0.25) ? true : false}
+                        setHovered={setHovered}
                     />
                 )
             })}
@@ -383,7 +615,7 @@ export function AppList(){
                             setFocus(Math.min(Math.max(0, focus + Math.round(e.deltaY * 0.006)), tasks.length -1))
                         }}
                     >
-                        <TasksCarousel tasks={tasks} hovered={hovered} focus={focus} now={now} />
+                        <TasksCarousel tasks={tasks} hovered={hovered} setHovered={setHovered} focus={focus} now={now} />
                     </ResizablePanel>
                     <ResizableHandle 
                         withHandle 

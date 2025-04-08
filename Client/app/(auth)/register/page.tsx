@@ -81,7 +81,7 @@ export default function RegisterPage() {
   return (
     <div className="flex flex-col h-full w-full items-center justify-center bg-background">
         <h2 className="text-3xl font-bold text-center">Sign up to Atemo</h2>
-        <div className="w-96 p-4 rounded-lg shadow-md">
+        <div className="w-96 p-4 rounded-xs">
             <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                 <FormField
