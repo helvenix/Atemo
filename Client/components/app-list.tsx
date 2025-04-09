@@ -605,7 +605,7 @@ export function AppList(){
 
     useEffect(() => {
         if(tasks.length > 0){
-            setFocus(Math.ceil(tasks.length/2 - 1))
+            setFocus(Math.ceil(tasks.filter(task => task.completedStatus === false).length/2 - 1))
         }else{
             setFocus(0)
         }
@@ -671,10 +671,10 @@ export function AppList(){
                         }}
                         onMouseLeave={()=> {
                             setHovered(false)
-                            setFocus(Math.ceil(tasks.length/2 - 1))
+                            setFocus(Math.ceil(tasks.filter(task => task.completedStatus === false).length/2 - 1))
                         }}
                         onWheel={(e) => {
-                            setFocus(Math.min(Math.max(0, focus + Math.round(e.deltaY * 0.006)), tasks.length -1))
+                            setFocus(Math.min(Math.max(0, focus + Math.round(e.deltaY * 0.006)), tasks.filter(task => task.completedStatus === false).length -1))
                         }}
                     >
                         <TasksCarousel tasks={tasks.filter(task => task.completedStatus === false)} hovered={hovered} setHovered={setHovered} focus={focus} now={now} />
