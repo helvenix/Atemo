@@ -231,7 +231,7 @@ function FocusCard({ task, className, style, timeRemaining, timeRatio, urgent, s
             </CardDescription>
             <CardContent className="absolute right-2 p-0 top-2 bottom-2 flex items-center">
                 <span className={cn(
-                    "absolute top-0 right-1",
+                    "absolute top-0 right-1 font-[RobotoMono]",
                     (urgent ? "text-destructive" : "text-affirmative")
                 )}>{timeRemaining}</span>
                 <TooltipProvider delayDuration={12000}>
@@ -470,7 +470,7 @@ function MinimalCard({task, className, style, timeRemaining, urgent}: CardProps)
             </CardHeader>
             <CardContent className="absolute right-2 p-0 top-2 bottom-2 flex items-center">
                 <span className={cn(
-                    "absolute top-0 right-1",
+                    "absolute top-0 right-1 font-[RobotoMono]",
                     (urgent ? "text-destructive" : "text-affirmative")
                 )}>{timeRemaining}</span>
             </CardContent>
