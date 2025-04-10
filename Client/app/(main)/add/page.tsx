@@ -32,7 +32,7 @@ const taskSchema = z.object({
     title: z
         .string()
         .min(1, {message: "title required"})
-        .max(20, {message: "Maximum 20 characters"}),
+        .max(24, {message: "Maximum 24 characters"}),
     notes: z
         .string(),
     start: z

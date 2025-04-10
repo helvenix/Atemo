@@ -218,7 +218,7 @@ function FocusCard({ task, className, style, timeRemaining, timeRatio, urgent, s
             style={style}
         >
             <CardHeader className="w-full text-sm absolute p-0">
-                {task.title}
+                <span className="w-42 truncate">{task.title}</span>
             </CardHeader>
             <CardDescription>
                 <Clock className="absolute size-3 top-7.5" /> <span className="absolute top-7 left-6 text-[0.6rem]/4">{format(new Date(task.deadline), "MMMM dd, yyyy | HH:mm")}</span>
@@ -466,7 +466,7 @@ function MinimalCard({task, className, style, timeRemaining, urgent}: CardProps)
             style={style}
         >
             <CardHeader className="w-full text-sm absolute p-0">
-                {task.title}
+                <span className="w-42 truncate">{task.title}</span>
             </CardHeader>
             <CardContent className="absolute right-2 p-0 top-2 bottom-2 flex items-center">
                 <span className={cn(
