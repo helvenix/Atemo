@@ -22,9 +22,11 @@ mongoose.connect(MONGO_URI)
 
 import userRoutes from './routes/users.js'
 import taskRoutes from './routes/tasks.js'
+import eventRoutes from './routes/events.js'
 
 app.use('/api/users', userRoutes);
 app.use('/api/tasks', taskRoutes);
+app.use('/api/events', eventRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

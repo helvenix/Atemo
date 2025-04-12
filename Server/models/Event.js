@@ -6,7 +6,8 @@ const EventSchema = new mongoose.Schema({
     description: { type: String },
     start: { type: Date, required: true },
     end: { type: Date },
-    recurrenceRule: { type: String }
+    recurrenceRule: { type: String },
+    reminderDismissed: { type: Boolean, default: false }
 }, { timestamps: true });
 
 export default mongoose.model("Event", EventSchema);
