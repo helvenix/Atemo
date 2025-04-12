@@ -145,7 +145,7 @@ export function AppSidebar() {
                                 <TooltipProvider>
                                     <Tooltip>
                                         <TooltipTrigger asChild className="cursor-pointer w-full h-full flex items-center justify-center">
-                                            <Link href='/add'>
+                                            <Link href='/add-task'>
                                                 <Plus className="size-4"/>
                                             </Link>
                                         </TooltipTrigger>
@@ -180,7 +180,7 @@ export function AppSidebar() {
                                         </SidebarMenuItem>
                                         <SidebarMenuItem>
                                             <SidebarMenuButton className="text-affirmative hover:text-affirmative" asChild>
-                                                <Link href='/add'>
+                                                <Link href='/add-task'>
                                                     <CirclePlus /> <span>Add Task</span>
                                                 </Link>
                                             </SidebarMenuButton>
