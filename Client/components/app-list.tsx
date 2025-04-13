@@ -180,7 +180,7 @@ function FocusCard({ task, className, style, timeRemaining, timeRatio, urgent, s
 
     const handleMarkAsDone = async (task: Task) => {
         try{
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/tasks/${task._id}`, {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/tasks/${task._id}/done`, {
                 method: "PUT",
                 credentials: 'include'
             });
