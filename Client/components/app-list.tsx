@@ -157,7 +157,7 @@ function FocusCard({ task, className, style, timeRemaining, timeRatio, urgent, s
 
     const handleEdit = async (task: TaskFormValues) => {
         try{
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/tasks/${task._id}`, {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/tasks/${task._id}/done`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json"
@@ -185,13 +185,6 @@ function FocusCard({ task, className, style, timeRemaining, timeRatio, urgent, s
         try{
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/tasks/${task._id}`, {
                 method: "PUT",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    ...task,
-                    completedStatus: true
-                }),
                 credentials: 'include'
             });
             if(res.ok){

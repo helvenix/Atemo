@@ -6,6 +6,7 @@ import {
     getTasks,
     getTaskById,
     updateTask,
+    markTaskAsDone,
     deleteTask
 } from '../controllers/tasks.js'
 import { auth } from '../middleware/auth.js'
@@ -18,6 +19,7 @@ router.get('/', getTasks);
 router.get('/:id', getTaskById);
 
 router.put('/:id', updateTask);
+router.put('/:id/done', markTaskAsDone);
 
 router.delete('/:id', deleteTask);
 
