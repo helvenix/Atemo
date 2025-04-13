@@ -90,8 +90,6 @@ type Task = {
     notes?: string;
     start: string;
     deadline: string;
-    completedStatus?: boolean;
-    completionDate?: string;
 };
 
 interface CardProps {
@@ -113,8 +111,7 @@ function FocusCard({ task, className, style, timeRemaining, timeRatio, urgent, s
                 title: task.title,
                 notes: task.notes,
                 start: new Date(task.start),
-                deadline: new Date(task.deadline),
-                completedStatus: task.completedStatus
+                deadline: new Date(task.deadline)
             },
     });
 
