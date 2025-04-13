@@ -6,6 +6,8 @@ import {
     getEvents,
     getEventById,
     updateEvent,
+    dismissEvent,
+    undismissEvent,
     deleteEvent
 } from '../controllers/events.js'
 import { auth } from '../middleware/auth.js'
@@ -18,6 +20,8 @@ router.get('/', getEvents);
 router.get('/:id', getEventById);
 
 router.put('/:id', updateEvent);
+router.put('/:id/dismiss', dismissEvent);
+router.put('/:id/undismiss', undismissEvent);
 
 router.delete('/:id', deleteEvent);
 
