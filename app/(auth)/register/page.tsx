@@ -16,31 +16,15 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import Link from "next/link"
 
-const registerSchema = z.object({
-    name: z
-        .string()
-        .min(1, {message: "name required"})
-        .max(15, {message: "Maximum 15 characters"}),
-    email: z
-        .email({message: "Invalid email address"})
-        .min(1, { message: "email required" }),
-    password: z
-        .string()
-        .min(1, { message: "Password required" })
-        .min(8, { message: "Password must be at least 8 characters" }),
-    confirmPassword: z.string().min(1, { message: "Confirm password required" })
-})
-.refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords do not match",
-    path: ["confirmPassword"]
-});
+import { signUpSchema } from "@/auth/schemas"
+import { signUp } from '@/auth/action'
 
-type RegisterFormValues = z.infer<typeof registerSchema>;
+type SignUpFormValues = z.infer<typeof signUpSchema>;
 
 export default function RegisterPage() {
     const router = useRouter();
-    const form = useForm<RegisterFormValues>({
-        resolver: zodResolver(registerSchema),
+    const form = useForm<SignUpFormValues>({
+        resolver: zodResolver(signUpSchema),
         defaultValues: {
             name: "",
             email: "",
@@ -49,30 +33,17 @@ export default function RegisterPage() {
         },
     });
 
-    async function onSubmit(user: RegisterFormValues) { 
+    async function onSubmit(data: SignUpFormValues) { 
         try{
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/register`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(user),
-                credentials: 'include'
+            const user = await signUp(data)
+
+            toast.success("Sign up successful", {
+                description: `Welcome ${user.name}`
             });
-            const data = await res.json();
-            if(res.ok){
-                toast.success("Sign up successful", {
-                    description: `Welcome ${data.user.name}`
-                });
-                router.push("/");
-            }else{
-                toast.error("Sign up failed", {
-                    description: data.message,
-                });
-            }
+            router.push("/");
         } catch (e){
             toast.error("An error occurred", {
-                description: "Please try again later.",
+                description: `${e instanceof Error ? e.message : "Sign up failed"}`,
             });
         }
     }

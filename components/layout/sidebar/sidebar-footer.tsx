@@ -25,6 +25,9 @@ import {
     AvatarImage 
 } from "@/components/ui/avatar"
 import { toast } from "sonner"
+import { useRouter } from "next/navigation"
+
+import { logOut } from "@/auth/action"
 
 import {
     User, 
@@ -33,26 +36,16 @@ import {
     MessageSquareWarning,
     SunMoon,
     Copy,
-    Check
+    Check,
 } from "lucide-react"
 
 export function Footer(){
+    const router = useRouter();
     const { theme, setTheme } = useTheme();
 
     const handleLogout = async () => {
-        // try {
-        //     await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/logout`, {
-        //         method: 'POST',
-        //         credentials: 'include'
-        //     });
-        //     setUser(null);
-        //     router.push("/login")
-        // } catch(e){
-        //     toast.error("An error occurred", {
-        //         description: "Please try again later.",
-        //     });
-        // }
-        toast.success("logout");
+        await logOut()
+        router.push("/login")
     }
 
     return (

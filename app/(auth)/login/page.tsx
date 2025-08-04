@@ -16,47 +16,32 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import Link from "next/link"
 
-const loginSchema = z.object({
-    email: z.email().min(1, { message: "email required" }),
-    password: z.string().min(1, { message: "Password required" }),
-});
+import { signInSchema } from "@/auth/schemas"
+import { signIn } from '@/auth/action'
 
-type LoginFormValues = z.infer<typeof loginSchema>;
+type SignInFormValues = z.infer<typeof signInSchema>;
 
 export default function LoginPage() {
     const router = useRouter();
-    const form = useForm<LoginFormValues>({
-        resolver: zodResolver(loginSchema),
+    const form = useForm<SignInFormValues>({
+        resolver: zodResolver(signInSchema),
         defaultValues: {
             email: "",
             password: "",
         },
     });
 
-    async function onSubmit(user: LoginFormValues) { 
+    async function onSubmit(data: SignInFormValues) { 
         try{
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/login`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(user),
-                credentials: 'include',
+            const user = await signIn(data)
+
+            toast.success("Log in successful", {
+                description: `Welcome ${user.name}`
             });
-            const data = await res.json();
-            if(res.ok){
-                toast.success("Log in successful", {
-                    description: `Welcome ${data.user.name}`
-                });
-                router.push("/");
-            }else{
-                toast.error("Invalid credentials", {
-                    description: "Username or password is incorrect.",
-                });
-            }
+            router.push("/");
         } catch (e){
             toast.error("An error occurred", {
-                description: "Please try again later.",
+                description: `${e instanceof Error ? e.message : "Sign in failed"}`,
             });
         }
     }
