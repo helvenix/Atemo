@@ -1,0 +1,17 @@
+import Link from "next/link"
+ 
+import { Button } from "@/components/ui/button"
+
+export default function NotFound() {
+    return (
+        <div className="flex w-full h-full flex-col items-center justify-center p-4">
+            <h1 className="text-5xl font-bold text-primary">404</h1>
+            <p className="mt-4 text-lg mb-5 text-primary">
+                Oops! We couldn’t find the page you’re looking for.
+            </p>
+            <Button asChild variant={"link"} size={"sm"}>
+                <Link href="/">Go back home</Link>
+            </Button>
+        </div>
+    );
+}
