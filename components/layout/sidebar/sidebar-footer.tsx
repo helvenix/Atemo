@@ -126,9 +126,9 @@ export function Footer(){
                                 <span>Send Feedback</span>
                             </DropdownMenuItem>
                             <DropdownMenuSeparator />
-                            <DropdownMenuItem onClick={handleLogout}>
-                                <LogOut className="text-destructive"/>
-                                <span className="text-destructive">Log out</span>
+                            <DropdownMenuItem onClick={handleLogout} variant="destructive">
+                                <LogOut />
+                                <span>Log out</span>
                             </DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
