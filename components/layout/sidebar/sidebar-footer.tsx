@@ -25,7 +25,9 @@ import {
     AvatarImage 
 } from "@/components/ui/avatar"
 import { toast } from "sonner"
+
 import { useRouter } from "next/navigation"
+import { useUser } from "@/components/provider/user-context"
 
 import { logOut } from "@/auth/action"
 
@@ -42,6 +44,7 @@ import {
 export function Footer(){
     const router = useRouter();
     const { theme, setTheme } = useTheme();
+    const { user } = useUser()
 
     const handleLogout = async () => {
         await logOut()
@@ -56,11 +59,11 @@ export function Footer(){
                         <DropdownMenuTrigger asChild>
                             <SidebarMenuButton className="h-12 relative cursor-pointer">
                                 <Avatar className="absolute top-2 left-4 rounded-md">
-                                    {/* <AvatarImage src={user?.profilePicture} /> */}
+                                    <AvatarImage src={user?.avatarUrl} />
                                     <AvatarFallback><User className="size-4"/></AvatarFallback>
                                 </Avatar>
-                                <h1 className="absolute w-45 text-md top-1 left-16 truncate">{/* user?.name */}Testing</h1>
-                                <h2 className="absolute text-xs text-muted-foreground top-6.5 left-16">UID : {/*String(user?.uid).padStart(4, "0")*/}0000</h2>
+                                <h1 className="absolute w-45 text-md top-1 left-16 truncate">{user?.name}</h1>
+                                <h2 className="absolute text-xs text-muted-foreground top-6.5 left-16">UID : {String(user?.uid).padStart(4, "0")}</h2>
                                 <ChevronsUpDown className="absolute right-5"/>
                             </SidebarMenuButton>
                         </DropdownMenuTrigger>
@@ -68,11 +71,11 @@ export function Footer(){
                         <DropdownMenuContent side="right" className="w-60 mb-4">
                             <DropdownMenuLabel className="relative h-12">
                                 <Avatar className="absolute top-2 left-3">
-                                    {/* <AvatarImage src={user?.profilePicture} /> */}
+                                    <AvatarImage src={user?.avatarUrl} />
                                     <AvatarFallback><User className="size-4"/></AvatarFallback>
                                 </Avatar>
                                 <h1 className="absolute w-42 text-md top-1 left-15 truncate">{/* user?.name */}Testing</h1>
-                                <h2 className="absolute text-xs text-muted-foreground top-6.5 left-15">UID : {/*String(user?.uid).padStart(4, "0")*/}0000</h2>
+                                <h2 className="absolute text-xs text-muted-foreground top-6.5 left-15">UID : {String(user?.uid).padStart(4, "0")}</h2>
                             </DropdownMenuLabel>
                             <DropdownMenuSeparator />
                             <DropdownMenuItem>
@@ -80,7 +83,7 @@ export function Footer(){
                                 <span>Account</span>
                             </DropdownMenuItem>
                             <DropdownMenuItem onClick={()=>{
-                                navigator.clipboard.writeText('0000');
+                                navigator.clipboard.writeText(String(user?.uid).padStart(4, "0"));
                                 toast.success("UID successfully copied to clipboard");
                             }}>
                                 <Copy />
