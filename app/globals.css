@@ -179,4 +179,8 @@
         @apply bg-background text-foreground;
         font-family: 'Inter';
     }
+    ::selection {
+        background-color: var(--accent);
+        color: var(--color-background);
+    }
 }
