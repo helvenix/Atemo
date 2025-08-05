@@ -6,7 +6,11 @@ const SESSION_EXPIRATION_SECONDS = 60 * 60 * 24 * 7
 const COOKIE_SESSION_KEY = "session-id"
 
 const sessionSchema = z.object({
-    id: z.string(),
+    _id: z.string(),
+    uid: z.number(),
+    name: z.string(),
+    email: z.email(),
+    avatarUrl: z.url().optional()
 })
 
 type UserSession = z.infer<typeof sessionSchema>
@@ -41,7 +45,7 @@ export async function createUserSession(
 ){
     const sessionId = crypto.randomBytes(32).toString("hex")
 
-    await redisClient.set(`session:${sessionId}`, sessionSchema.parse(user), {
+    await redisClient.set(`session:${sessionId}`, JSON.stringify(sessionSchema.parse(user)), {
         ex: SESSION_EXPIRATION_SECONDS,
     })
 
@@ -55,7 +59,7 @@ export async function updateUserSessionData(
     const sessionId = cookies.get(COOKIE_SESSION_KEY)?.value
     if (!sessionId) return null
 
-    await redisClient.set(`session:${sessionId}`, sessionSchema.parse(user), {
+    await redisClient.set(`session:${sessionId}`, JSON.stringify(sessionSchema.parse(user)), {
         ex: SESSION_EXPIRATION_SECONDS,
     })
 }
@@ -98,6 +102,8 @@ function setCookie(sessionId: string, cookies: Pick<Cookies, "set">) {
 
 async function getUserSessionById(sessionId: string) {
     const rawUser = await redisClient.get(`session:${sessionId}`)
+    if(!rawUser) return null
+
     const result = sessionSchema.safeParse(rawUser)
     return result.success ? result.data : null
 }

@@ -1,7 +1,6 @@
 "use server"
 
 import { z } from "zod"
-import { redirect } from "next/navigation"
 import bcrypt from 'bcryptjs'
 
 import { cookies } from "next/headers"
@@ -35,7 +34,12 @@ export async function signUp(unsafeData: z.infer<typeof signUpSchema>){
         password: hashedPassword,
     })
     
-    await createUserSession({id: user._id.toString()}, await cookies())
+    await createUserSession({
+        _id: user._id.toString(),
+        uid: user.uid,
+        name: user.name,
+        email: user.email
+    }, await cookies())
 
     await user.save()
     return {
@@ -57,7 +61,12 @@ export async function signIn(unsafeData: z.infer<typeof signInSchema>){
     const isMatch = await bcrypt.compare(data.password, user.password)
     if(!isMatch) throw new Error("Invalid credentials")
 
-    await createUserSession({id: user._id.toString()}, await cookies())
+    await createUserSession({
+        _id: user._id.toString(),
+        uid: user.uid,
+        name: user.name,
+        email: user.email
+    }, await cookies())
 
     return {
         id: user._id.toString(),
