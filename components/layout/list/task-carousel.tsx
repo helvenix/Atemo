@@ -13,9 +13,9 @@ function computeMeta(task: Task, now: Date){
     const timeRemaining = Math.max(deadline - now.getTime(), 0)
     const timeRatio = timeRemaining / duration
 
-    const secs  = Math.floor((timeRemaining / 1000) % 60);
-    const mins  = Math.floor((timeRemaining / 60000) % 60);
     const hrs   = Math.floor(timeRemaining / 3600000);
+    const mins  = Math.floor((timeRemaining / 60000) % 60);
+    const secs  = Math.floor((timeRemaining / 1000) % 60);
 
     const hh = String(hrs).padStart(3, '0');
     const mm = String(mins).padStart(2, '0');
@@ -31,7 +31,7 @@ function computeMeta(task: Task, now: Date){
 }
 
 export function TaskCarousel({ items, now, hovered, setHovered, focus }: CarouselProps<Task>){
-    if(TaskCarousel.length === 0) return <div className="flex m-0 p-0 gap-x-2"><span>no tasks for now</span><PartyPopper className="size-5"/></div>
+    if(items.length === 0) return <div className="flex m-0 p-0 gap-x-2"><span>no tasks for now</span><PartyPopper className="size-5"/></div>
 
     const tasks = items
         .map(item => computeMeta(item, now))
@@ -53,7 +53,7 @@ export function TaskCarousel({ items, now, hovered, setHovered, focus }: Carouse
     : 
     {
         className: "w-full m-0 p-0 border border-l-0 border-r-0"
-    };
+    }
 
     return (
         <div {...containerProps}>
