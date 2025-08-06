@@ -10,7 +10,7 @@ export interface Task {
 
 export interface Event {
     _id: string;
-    userID: string;
+    userId: string;
     title: string;
     notes?: string;
     start: string;
