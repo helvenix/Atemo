@@ -10,6 +10,7 @@ import { UserProvider, User } from "@/components/provider/user-context";
 
 import { SidebarProvider } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/layout/app-sidebar"
+import { AppList } from "@/components/layout/app-list"
 
 import "../globals.css";
 
@@ -32,6 +33,7 @@ export default async function RootLayout({children}: Readonly<{children: React.R
                 <main className="w-screen h-screen">
                     {children}
                 </main>
+                <AppList />
             </SidebarProvider>
         </UserProvider>
     );

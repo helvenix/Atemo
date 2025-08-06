@@ -171,13 +171,27 @@
     --sidebar-ring:              oklch(0.552 0.016 285.938);
 }
 
+@font-face {
+    font-family: "Inter";
+    src: url('/font/Inter.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "RobotoMono";
+    src: url('/font/RobotoMono.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
 @layer base {
     * {
         @apply border-border outline-ring/50;
     }
     body {
         @apply bg-background text-foreground;
-        font-family: 'Inter';
+        font-family: 'Inter', sans-serif;
     }
     ::selection {
         background-color: var(--accent);
