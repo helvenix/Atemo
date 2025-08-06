@@ -8,25 +8,11 @@ import { EventCarousel } from './event-carousel'
 import {
     ResizablePanel,
 } from "@/components/ui/resizable"
-import { toast } from 'sonner'
 
 export function EventSection({ now, size, shown }: { now: Date; size:number; shown:string }){
-    const { events, setEvents  } = useEvents()
+    const { events } = useEvents()
     const [hovered, setHovered] = useState(false)
     const [focus, setFocus] = useState(0)
-
-    const fetchEvents = async() => {
-        try{
-            const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/events/`,
-                { withCredentials: true }
-            )
-            setEvents(res.data)
-        } catch(e: any){
-            toast.error("An error occurred", {
-                description: e?.response?.data?.message || "Event can't be fetched.",
-            });
-        }
-    }
 
     useEffect(() => {
         if(events.length > 0){

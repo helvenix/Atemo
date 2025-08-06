@@ -5,8 +5,8 @@ import { cookies } from "next/headers"
 import { redirect } from "next/navigation";
 
 import { UserProvider, User } from "@/components/provider/user-context";
-// import { TaskProvider } from "@/components/task-context";
-// import { EventProvider } from "@/components/event-context";
+import { TaskProvider } from "@/components/provider/task-context";
+import { EventProvider } from "@/components/provider/event-context";
 
 import { SidebarProvider } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/layout/app-sidebar"
@@ -28,13 +28,17 @@ export default async function RootLayout({children}: Readonly<{children: React.R
 
     return (
         <UserProvider initialUser={initialUser}>
-            <SidebarProvider>
-                <AppSidebar />
-                <main className="w-screen h-screen">
-                    {children}
-                </main>
-                <AppList />
-            </SidebarProvider>
+            <TaskProvider>
+                <EventProvider>
+                    <SidebarProvider>
+                        <AppSidebar />
+                        <main className="w-screen h-screen">
+                            {children}
+                        </main>
+                        <AppList />
+                    </SidebarProvider>
+                </EventProvider>
+            </TaskProvider>
         </UserProvider>
     );
 }

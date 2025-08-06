@@ -8,25 +8,11 @@ import { TaskCarousel } from './task-carousel'
 import {
     ResizablePanel,
 } from "@/components/ui/resizable"
-import { toast } from 'sonner'
 
 export function TaskSection({ now, size, shown }: { now: Date; size:number; shown:string }){
-    const { tasks, setTasks } = useTasks()
+    const { tasks } = useTasks()
     const [hovered, setHovered] = useState(false)
     const [focus, setFocus] = useState(0)
-
-    const fetchTasks = async() => {
-        try{
-            const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/tasks/`,
-                { withCredentials: true }
-            )
-            setTasks(res.data)
-        } catch(e: any){
-            toast.error("An error occurred", {
-                description: e?.response?.data?.message || "Task can't be fetched.",
-            });
-        }
-    }
 
     useEffect(() => {
         if(tasks.length > 0){
