@@ -8,7 +8,7 @@ import {
 
 import { Task, MinimalCardProps } from "../type";
 
-export function TaskMinimalCard({item , timeRemaining, urgent, conceal}: MinimalCardProps<Task>){
+export function TaskMinimalCard({ item, timeRemaining, urgent, conceal }: MinimalCardProps<Task>){
     return (
         <Card className={cn(
             "relative h-10 p-2 shadow-xs bg-background w-full border-r-0 border-l-0 rounded-none",

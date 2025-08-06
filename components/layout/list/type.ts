@@ -30,9 +30,9 @@ export interface CarouselProps<T> {
     items: T[];
     now: Date;
     hovered: boolean;
-    focus: number;
     setHovered: React.Dispatch<React.SetStateAction<boolean>>;
-    setFocus: (idx: number) => void;
+    focus: number;
+    // setFocus: (idx: number) => void;
 }
 
 export interface FocusCardProps<T>{
