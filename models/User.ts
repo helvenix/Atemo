@@ -12,12 +12,12 @@ const UserSchema = new Schema({
     avatarUrl: { type: String, default: null },
     preferences: { type: mongoose.Schema.Types.Mixed, default: {} },
 
-    // ─────────────── Stats ───────────────
-    currentLevel: { type: Number, default: 1 },
-    streak: { type: Number, default: 0 },
-    totalBlessings: { type: Number, default: 0 },
-    lastActivityAt: { type: Date, default: null },
+    // // ─────────────── Stats ───────────────
+    // currentLevel: { type: Number, default: 1 },
+    // streak: { type: Number, default: 0 },
+    // totalBlessings: { type: Number, default: 0 },
+    // lastActivityAt: { type: Date, default: null },
     // selectedAward:  { type: Schema.Types.ObjectId, ref: 'Award', default: null }
-}, {timestamps: true});
+}, { timestamps: true });
 
 export default mongoose.models.User || mongoose.model('User', UserSchema);

@@ -4,7 +4,7 @@ declare global {
     var _mongoose: {
         conn: typeof mongoose | null
         promise: Promise<typeof mongoose> | null
-    }
+    } | undefined;
 }
 
 const MONGO_URI = process.env.MONGO_URI!

@@ -2,7 +2,6 @@
 import { useState, useEffect } from 'react'
 import { useTasks } from '@/components/provider/task-context'
 import { cn } from '@/lib/utils'
-import axios from 'axios'
 
 import { TaskCarousel } from './task-carousel'
 import {

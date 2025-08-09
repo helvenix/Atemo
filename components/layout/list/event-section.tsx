@@ -2,7 +2,6 @@
 import { useState, useEffect } from 'react'
 import { useEvents } from '@/components/provider/event-context'
 import { cn } from '@/lib/utils'
-import axios from 'axios'
 
 import { EventCarousel } from './event-carousel'
 import {
