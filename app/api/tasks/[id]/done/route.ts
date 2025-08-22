@@ -3,12 +3,11 @@ import { cookies } from "next/headers"
 
 import connectDB from "@/db/mongoose"
 import Task from "@/models/Task"
-import { updateTaskSchema } from "@/validators/task"
 import { getUserFromSession } from "@/auth/session"
 
 export const runtime = "nodejs"
 
-export async function PUT(req: Request, { params }: {params: { id: string }}){
+export async function PUT({ params }: {params: { id: string }}){
     await connectDB()
 
     const user = await getUserFromSession(await cookies())
