@@ -5,10 +5,11 @@ import { cn } from "@/lib/utils";
 import { SidebarMenuItem } from "@/components/ui/sidebar"
 import { Button } from "@/components/ui/button";
 import {
+    Tooltip,
+    TooltipContent,
     TooltipProvider,
+    TooltipTrigger,
 } from "@/components/ui/tooltip"
-
-import { FilterControl } from "./controls/filter-controls";
 
 import { Plus, Rows2 } from "lucide-react";
 
@@ -81,8 +82,6 @@ export function AppListControls({ shown, setShown }: { shown: string; setShown: 
                 </Button>
 
             </div>
-
-            {/* <FilterControl /> */}
         </SidebarMenuItem>
     )
 }
