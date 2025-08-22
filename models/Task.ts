@@ -11,4 +11,4 @@ const TaskSchema = new Schema({
     completionDate: { type: Date }
 }, { timestamps: true })
 
-export default mongoose.models.Task || mongoose.model('Task', TaskSchema)
+export default mongoose.models.User || mongoose.model('Task', TaskSchema)

@@ -18,7 +18,7 @@ export async function GET({ params }: {params: { id: string }}){
         const task = await Task.findOne({ _id: params.id, userId: user._id })
         if(!task) return Response.json({message: "Task not found"}, {status: 404})
 
-        return Response.json({task}, {status: 200})
+        return Response.json({item: task}, {status: 200})
     }catch(e: any){
         return Response.json({message: e.message || "Server error"}, {status: 500})
     }
@@ -51,7 +51,7 @@ export async function PUT(req: Request, { params }: {params: { id: string }}){
     }
 }
 
-export async function DELETE({ params }: {params: { id: string }}){
+export async function DELETE(req: Request, { params }: {params: { id: string }}){
     await connectDB()
 
     const user = await getUserFromSession(await cookies())
