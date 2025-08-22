@@ -6,8 +6,6 @@ export interface Task {
     start: string;
     deadline: string;
     completedStatus?: boolean
-    createdAt?: string;
-    updatedAt?: string;
 }
 
 export interface Event {
@@ -19,8 +17,6 @@ export interface Event {
     end?: string;
     recurrenceRule: string;
     dismissed?: boolean;
-    createdAt?: string;
-    updatedAt?: string;
 }
 
 export interface CarouselMeta {
