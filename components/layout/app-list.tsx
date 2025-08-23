@@ -21,10 +21,9 @@ import {
 } from "@/components/ui/resizable"
 import { toast } from "sonner";
 
+import { ControlPanel } from "./list/control-panel";
 import { TaskSection } from "./list/task-section";
 import { EventSection } from "./list/event-section";
-
-import { CircleSmall } from "lucide-react";
 
 export function AppList(){
     const { setTasks } = useTasks()
@@ -70,51 +69,9 @@ export function AppList(){
         return () => clearInterval(countdownInterval);
     }, [])
 
-    const handleShown = (value: string) => {
-        if(shown === value) value = "all";
-        setShown(value);
-    }
-
     return (
         <Sidebar side="right">
-            <SidebarHeader className="bg-background h-24">
-                <SidebarMenu>
-                    <SidebarMenuItem className="flex w-full justify-center">
-                        <div className="flex gap-0 absolute top-5">
-                            <Button
-                                variant="filter"
-                                onClick={() => handleShown("tasks")}
-                                className={cn(
-                                    "w-24 rounded-r-none",
-                                    (shown === "tasks" || shown === "all") ? "border-accent" : ""
-                                )}
-                            >
-                                tasks
-                            </Button>
-                            <Button
-                                variant="filter"
-                                onClick={() => handleShown("all")}
-                                className={cn(
-                                    "w-8 rounded-none border-l-0 border-r-0",
-                                    (shown === "all") ? "border-accent" : ""
-                                )}
-                            >
-                                <CircleSmall />
-                            </Button>
-                            <Button
-                                variant="filter"
-                                onClick={() => handleShown("events")}
-                                className={cn(
-                                    "w-24 rounded-l-none",
-                                    (shown === "events" || shown === "all") ? "border-accent" : ""
-                                )}
-                            >
-                                events
-                            </Button>
-                        </div>
-                    </SidebarMenuItem>
-                </SidebarMenu>
-            </SidebarHeader>
+            <ControlPanel shown={shown} setShown={setShown} />
 
             <SidebarSeparator />
 

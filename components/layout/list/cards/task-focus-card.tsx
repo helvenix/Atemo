@@ -54,7 +54,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea"
 import { toast } from "sonner"
 
-import { Task, FocusCardProps } from "../type"
+import { Task, FocusCardProps, taskSchema } from "../type"
 
 import { 
     Calendar as CalendarIcon, 
@@ -93,24 +93,6 @@ function EditHandler({ item, setHovered } : Pick<FocusCardProps<Task>, "item" | 
             window.removeEventListener("resize", handleResize);
         }
     }, [setPopoverSide])
-
-    const taskSchema = z.object({
-        _id: z.string(),
-        title: z
-            .string()
-            .min(1, {message: "title required"})
-            .max(24, {message: "Maximum 24 characters"}),
-        notes: z
-            .string(),
-        start: z
-            .date({
-                error: "Starting time required"
-            }),
-        deadline: z
-            .date({
-                error: "Deadline time required"
-            })
-    })
 
     type TaskFormValues = z.infer<typeof taskSchema>
 
@@ -314,10 +296,10 @@ function MarkAsDoneHandler({item, urgent, setHovered}: Pick<FocusCardProps<Task>
         <Dialog>
             <DialogTrigger asChild>
                 <CardContent className={cn(
-                    "absolute duration-240 cursor-pointer p-0 top-10 bottom-10 right-0 w-18 border border-r-0 rounded-full rounded-r-none flex items-center justify-center",
-                    urgent ? "hover:bg-destructive" : "hover:bg-accent"
+                    "absolute duration-240 cursor-pointer p-0 top-8 bottom-10 -right-2 w-18 h-10 border border-r-0 rounded-full rounded-r-none flex items-center justify-center",
+                    urgent ? "hover:bg-destructive border-destructive/36" : "hover:bg-accent border-accent/36"
                 )}>
-                    <CheckCheck className="size-4" />
+                    <CheckCheck className="size-4"/>
                 </CardContent>
             </DialogTrigger>
             <DialogContent className="w-96 rounded-xs" onCloseAutoFocus={() => setHovered(false)}>

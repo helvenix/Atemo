@@ -11,7 +11,7 @@ import { Task, MinimalCardProps } from "../type";
 export function TaskMinimalCard({ item, timeRemaining, urgent, conceal }: MinimalCardProps<Task>){
     return (
         <Card className={cn(
-            "relative h-10 p-2 shadow-xs bg-background w-full border-r-0 border-l-0 rounded-none",
+            "relative h-10 p-2 shadow-xs bg-background w-full border-primary/36 border-r-0 border-l-0 rounded-none",
             conceal ? "opacity-24" : undefined
         )}
         >

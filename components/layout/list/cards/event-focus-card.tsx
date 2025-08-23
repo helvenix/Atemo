@@ -58,7 +58,7 @@ import {
     RadioGroupItem 
 } from "@/components/ui/radio-group"
 
-import { Event, FocusCardProps } from "../type";
+import { Event, FocusCardProps, eventSchema } from "../type";
 
 import { 
     Calendar as CalendarIcon, 
@@ -98,24 +98,6 @@ function EditHandler({ item, setHovered } : Pick<FocusCardProps<Event>, "item" |
             window.removeEventListener("resize", handleResize);
         }
     }, [setPopoverSide])
-
-    const eventSchema = z.object({
-        _id: z.string(),
-        title: z
-            .string()
-            .min(1, {message: "title required"})
-            .max(24, {message: "Maximum 24 characters"}),
-        notes: z
-            .string(),
-        start: z
-            .date({
-                error: "Starting time required"
-            }),
-        end: z
-            .date().optional(),
-        recurrenceRule: z
-            .string()
-    })
 
     type EventFormValues = z.infer<typeof eventSchema>;
 
@@ -360,8 +342,8 @@ function DismissHandler({ item, urgent, setHovered }: Pick<FocusCardProps<Event>
         <Dialog>
             <DialogTrigger asChild>
                 <CardContent className={cn(
-                    "absolute duration-240 cursor-pointer p-0 top-10 bottom-10 right-0 w-18 border border-r-0 rounded-full rounded-r-none flex items-center justify-center",
-                    urgent ? "hover:bg-destructive" : "hover:bg-affirmative"
+                    "absolute duration-240 cursor-pointer p-0 top-8 bottom-10 -right-2 w-18 h-10 border border-r-0 rounded-full rounded-r-none flex items-center justify-center",
+                    urgent ? "hover:bg-destructive border-destructive/36" : "hover:bg-accent border-accent/36"
                 )}>
                     <EyeOff className="size-4" />
                 </CardContent>

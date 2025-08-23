@@ -1,3 +1,5 @@
+import { z } from "zod";
+
 export interface Task {
     _id: string;
     userId: string;
@@ -49,3 +51,43 @@ export interface MinimalCardProps<T>{
     urgent: boolean;
     conceal: boolean;
 }
+
+export const taskSchema = z.object({
+    _id: z.string(),
+    title: z
+        .string()
+        .min(1, {message: "title required"})
+        .max(24, {message: "Maximum 24 characters"}),
+    notes: z
+        .string(),
+    start: z
+        .date({
+            error: "Starting time required"
+        }),
+    deadline: z
+        .date({
+            error: "Deadline time required"
+        })
+})
+
+export const createTaskSchema = taskSchema.omit({ _id: true})
+
+export const eventSchema = z.object({
+    _id: z.string(),
+    title: z
+        .string()
+        .min(1, {message: "title required"})
+        .max(24, {message: "Maximum 24 characters"}),
+    notes: z
+        .string(),
+    start: z
+        .date({
+            error: "Starting time required"
+        }),
+    end: z
+        .date().optional(),
+    recurrenceRule: z
+        .string()
+})
+
+export const createEventSchema = eventSchema.omit({ _id: true})

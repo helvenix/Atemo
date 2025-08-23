@@ -52,7 +52,7 @@ export function TaskCarousel({ items, now, hovered, setHovered, focus }: Carouse
     }
     : 
     {
-        className: "w-full m-0 p-0 border border-l-0 border-r-0"
+        className: "w-full m-0 p-0 border border-primary/36 border-l-0 border-r-0"
     }
 
     return (
