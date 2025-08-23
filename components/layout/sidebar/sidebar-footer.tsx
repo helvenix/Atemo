@@ -74,7 +74,7 @@ export function Footer(){
                                     <AvatarImage src={user?.avatarUrl} />
                                     <AvatarFallback><User className="size-4"/></AvatarFallback>
                                 </Avatar>
-                                <h1 className="absolute w-42 text-md top-1 left-15 truncate">{/* user?.name */}Testing</h1>
+                                <h1 className="absolute w-42 text-md top-2 left-15 truncate">{user?.name}</h1>
                                 <h2 className="absolute text-xs text-muted-foreground top-6.5 left-15">UID : {String(user?.uid).padStart(4, "0")}</h2>
                             </DropdownMenuLabel>
                             <DropdownMenuSeparator />

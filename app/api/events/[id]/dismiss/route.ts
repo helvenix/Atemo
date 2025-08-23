@@ -9,7 +9,7 @@ import { addDays, addWeeks, addMonths } from 'date-fns'
 
 export const runtime = "nodejs"
 
-export async function PUT({ params }: {params: { id: string }}){
+export async function PUT(req: Request, { params }: {params: { id: string }}){
     await connectDB()
 
     const user = await getUserFromSession(await cookies())

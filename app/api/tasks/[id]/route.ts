@@ -8,7 +8,7 @@ import { getUserFromSession } from "@/auth/session"
 
 export const runtime = "nodejs"
 
-export async function GET({ params }: {params: { id: string }}){
+export async function GET(req: Request, { params }: {params: { id: string }}){
     await connectDB()
 
     const user = await getUserFromSession(await cookies())
@@ -51,7 +51,7 @@ export async function PUT(req: Request, { params }: {params: { id: string }}){
     }
 }
 
-export async function DELETE({ params }: {params: { id: string }}){
+export async function DELETE(req: Request, { params }: {params: { id: string }}){
     await connectDB()
 
     const user = await getUserFromSession(await cookies())
