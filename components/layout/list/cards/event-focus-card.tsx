@@ -83,6 +83,7 @@ function Timer({ urgent, timeRemaining } : Pick<FocusCardProps<Event>, "urgent" 
 function EditHandler({ item, setHovered } : Pick<FocusCardProps<Event>, "item" | "setHovered">){
     const { updateEvent } = useEvents()
     const [ popoverSide, setPopoverSide ] = useState<"top" | "right">("right")
+    const [dialog, setDialog] = useState(false)
     
     useEffect(() => {
         const handleResize = () => {
@@ -115,6 +116,7 @@ function EditHandler({ item, setHovered } : Pick<FocusCardProps<Event>, "item" |
 
     const handleEdit = async (event: EventFormValues) => {
         try{
+            setDialog(false)
             const res = await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/events/${event._id}`,
                 event,
                 { withCredentials: true }
@@ -132,7 +134,7 @@ function EditHandler({ item, setHovered } : Pick<FocusCardProps<Event>, "item" |
         <TooltipProvider delayDuration={12000}>
             <Tooltip>
                 <TooltipTrigger asChild>
-                    <Dialog>
+                    <Dialog open={dialog} onOpenChange={setDialog}>
                         <DialogTrigger>
                             <PenLine className="absolute bottom-0 right-8 size-6 p-1 text-muted-foreground hover:text-affirmative cursor-pointer"/> 
                         </DialogTrigger>
@@ -300,14 +302,12 @@ function EditHandler({ item, setHovered } : Pick<FocusCardProps<Event>, "item" |
                                                 Cancel
                                             </Button>
                                         </DialogClose>
-                                        <DialogClose asChild>
-                                            <Button 
-                                                className="cursor-pointer rounded-xs w-18" 
-                                                type="submit" variant="default"
-                                            >
-                                                Save
-                                            </Button>
-                                        </DialogClose>
+                                        <Button 
+                                            className="cursor-pointer rounded-xs w-18" 
+                                            type="submit" variant="default"
+                                        >
+                                            Save
+                                        </Button>
                                     </DialogFooter>
                                 </form>
                                 </Form>

@@ -59,13 +59,13 @@ export function AddTask({setDialog} : {setDialog: React.Dispatch<React.SetStateA
 
     const handleAdd = async (task: TaskFormValue) => {
         try{
+            setDialog(false)
             const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/tasks/`, 
                 task,
                 { withCredentials: true }
             )
             addTask(res.data.task);
             toast.success("Task has been succesfully added");
-            setDialog(false)
         }catch(e: any){
             toast.error("An error occurred", {
                 description: e?.response?.data?.message || "Please try again later.",
