@@ -343,7 +343,7 @@ function DismissHandler({ item, urgent, setHovered }: Pick<FocusCardProps<Event>
             <DialogTrigger asChild>
                 <CardContent className={cn(
                     "absolute duration-240 cursor-pointer p-0 top-8 bottom-10 -right-2 w-18 h-10 border border-r-0 rounded-full rounded-r-none flex items-center justify-center",
-                    urgent ? "hover:bg-destructive border-destructive/36" : "hover:bg-accent border-accent/36"
+                    urgent ? "hover:bg-destructive border-destructive/36" : "hover:bg-primary border-primary/36"
                 )}>
                     <EyeOff className="size-4" />
                 </CardContent>

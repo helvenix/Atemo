@@ -170,7 +170,7 @@ export function Content(){
                                         <Bell /> <span>Notifications</span>
                                     </Link>
                                 </SidebarMenuButton>
-                                <SidebarMenuBadge className="mr-3 text-accent bg-accent/10">24</SidebarMenuBadge>
+                                <SidebarMenuBadge className="mr-3 text-primary bg-primary/10">24</SidebarMenuBadge>
                             </SidebarMenuItem>
                             <SidebarMenuItem>
                                 <SidebarMenuButton asChild>
@@ -220,7 +220,7 @@ export function Content(){
                                     <GroupMenuItem imageUrl="" name="Group 4"/>
                                     
                                     <SidebarMenuItem>
-                                        <SidebarMenuButton className="text-accent hover:text-accent pl-6 gap-x-4 cursor-pointer">
+                                        <SidebarMenuButton className="text-primary hover:text-primary pl-6 gap-x-4 cursor-pointer">
                                             <CirclePlus /> <span>Add Group</span>
                                         </SidebarMenuButton>
                                     </SidebarMenuItem>
@@ -265,7 +265,7 @@ export function Content(){
                                     <FriendMenuItem imageUrl="" name="Friend 9"/>
 
                                     <SidebarMenuItem>
-                                        <SidebarMenuButton className="text-accent hover:text-accent pl-6 gap-x-4 cursor-pointer">
+                                        <SidebarMenuButton className="text-primary hover:text-primary pl-6 gap-x-4 cursor-pointer">
                                             <UserPlus /> <span>Add Friend</span>
                                         </SidebarMenuButton>
                                     </SidebarMenuItem>

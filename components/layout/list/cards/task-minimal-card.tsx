@@ -21,7 +21,7 @@ export function TaskMinimalCard({ item, timeRemaining, urgent, conceal }: Minima
             <CardContent className="absolute right-2 p-0 top-2 bottom-2 flex items-center">
                 <span className={cn(
                     "absolute top-0 right-1 font-[RobotoMono]",
-                    (urgent ? "text-destructive" : "text-accent")
+                    (urgent ? "text-destructive" : "text-primary")
                 )}>{timeRemaining}</span>
             </CardContent>
         </Card>

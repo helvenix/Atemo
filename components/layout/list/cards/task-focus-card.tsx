@@ -68,7 +68,7 @@ function Timer({ urgent, timeRemaining } : Pick<FocusCardProps<Task>, "urgent" |
     return (
         <span className={cn(
             "absolute top-0 right-1 font-[RobotoMono]",
-            (urgent ? "text-destructive" : "text-accent")
+            (urgent ? "text-destructive" : "text-primary")
         )}>
             {timeRemaining}
         </span>
@@ -128,7 +128,7 @@ function EditHandler({ item, setHovered } : Pick<FocusCardProps<Task>, "item" | 
                 <TooltipTrigger asChild>
                     <Dialog>
                         <DialogTrigger>
-                            <PenLine className="absolute bottom-0 right-8 size-6 p-1 text-muted-foreground hover:text-accent cursor-pointer"/> 
+                            <PenLine className="absolute bottom-0 right-8 size-6 p-1 text-muted-foreground hover:text-primary cursor-pointer"/> 
                         </DialogTrigger>
 
                         <DialogContent className="rounded-xs p-8 w-104" onCloseAutoFocus={() => setHovered(false)}>
@@ -145,7 +145,7 @@ function EditHandler({ item, setHovered } : Pick<FocusCardProps<Task>, "item" | 
                                         render={({ field }) => (
                                             <FormItem>
                                             <FormControl>
-                                                <Input className="h-12 border-0 border-b-2 focus-visible:border-accent focus-visible:ring-0 rounded-xs" placeholder="title" {...field} />
+                                                <Input className="h-12 border-0 border-b-2 focus-visible:border-primary focus-visible:ring-0 rounded-xs" placeholder="title" {...field} />
                                             </FormControl>
                                             <FormMessage className="text-destructive"/>
                                             </FormItem>
@@ -157,7 +157,7 @@ function EditHandler({ item, setHovered } : Pick<FocusCardProps<Task>, "item" | 
                                         render={({ field }) => (
                                             <FormItem>
                                             <FormControl>
-                                                <Textarea className="h-24 border-0 border-b-2 focus-visible:border-accent focus-visible:ring-0 rounded-xs max-h-48" placeholder="notes (optional)" {...field} />
+                                                <Textarea className="h-24 border-0 border-b-2 focus-visible:border-primary focus-visible:ring-0 rounded-xs max-h-48" placeholder="notes (optional)" {...field} />
                                             </FormControl>
                                             <FormMessage className="text-destructive"/>
                                             </FormItem>
@@ -297,7 +297,7 @@ function MarkAsDoneHandler({item, urgent, setHovered}: Pick<FocusCardProps<Task>
             <DialogTrigger asChild>
                 <CardContent className={cn(
                     "absolute duration-240 cursor-pointer p-0 top-8 bottom-10 -right-2 w-18 h-10 border border-r-0 rounded-full rounded-r-none flex items-center justify-center",
-                    urgent ? "hover:bg-destructive border-destructive/36" : "hover:bg-accent border-accent/36"
+                    urgent ? "hover:bg-destructive border-destructive/36" : "hover:bg-primary border-primary/36"
                 )}>
                     <CheckCheck className="size-4"/>
                 </CardContent>
@@ -399,7 +399,7 @@ export function TaskFocusCard({item, timeRemaining, timeRatio, urgent, setHovere
             <CardDescription>
                 <Clock className="absolute size-3 top-7.5" /> <span className="absolute top-7 left-6 text-[0.6rem]/4">{format(new Date(item.deadline), "MMMM dd, yyyy | HH:mm")}</span>
             </CardDescription>
-            <Progress className="absolute h-1 w-48 top-12.5 left-0 rounded-l-none" childClass={urgent ? "bg-destructive" : "bg-accent"} value={timeRatio*100} />
+            <Progress className="absolute h-1 w-48 top-12.5 left-0 rounded-l-none" childClass={urgent ? "bg-destructive" : "bg-primary"} value={timeRatio*100} />
             <CardDescription>
                 <ScrollArea className="h-12 w-50 pr-1 absolute top-7 text-xs">
                     {item.notes}

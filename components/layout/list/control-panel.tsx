@@ -41,7 +41,7 @@ export function ControlPanel({shown, setShown}: { shown: string; setShown: React
                             onClick={() => handleShown("tasks")}
                             className={cn(
                                 "w-24 rounded-r-none border-b-0",
-                                (shown === "tasks" || shown === "all") ? "border-accent" : ""
+                                (shown === "tasks" || shown === "all") ? "border-primary" : ""
                             )}
                         >
                             tasks
@@ -51,7 +51,7 @@ export function ControlPanel({shown, setShown}: { shown: string; setShown: React
                             onClick={() => handleShown("all")}
                             className={cn(
                                 "w-8 rounded-none border-l-0 border-r-0 border-b-0",
-                                (shown === "all") ? "border-accent" : ""
+                                (shown === "all") ? "border-primary" : ""
                             )}
                         >
                             <CircleSmall />
@@ -61,7 +61,7 @@ export function ControlPanel({shown, setShown}: { shown: string; setShown: React
                             onClick={() => handleShown("events")}
                             className={cn(
                                 "w-24 rounded-l-none border-b-0",
-                                (shown === "events" || shown === "all") ? "border-accent" : ""
+                                (shown === "events" || shown === "all") ? "border-primary" : ""
                             )}
                         >
                             events
@@ -71,7 +71,7 @@ export function ControlPanel({shown, setShown}: { shown: string; setShown: React
                         <DialogTrigger asChild>
                             <Button
                                 variant='filter'
-                                className="flex gap-0 w-56 absolute top-11 border-accent h-6"
+                                className="flex gap-0 w-56 absolute top-11 border-primary h-6"
                             >
                                 <FilePlus2 />
                             </Button>
