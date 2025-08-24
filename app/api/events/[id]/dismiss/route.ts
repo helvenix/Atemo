@@ -9,14 +9,16 @@ import { addDays, addWeeks, addMonths } from 'date-fns'
 
 export const runtime = "nodejs"
 
-export async function PUT(req: Request, { params }: {params: { id: string }}){
+export async function PUT(req: Request, context: { params: Promise<{ id: string }> }){
     await connectDB()
 
     const user = await getUserFromSession(await cookies())
     if(!user) return Response.json({message: "Unauthorized"}, {status: 401})
 
     try{
-        const event = await Event.findOne({ _id: params.id, userId: user._id })
+        const { id } = await context.params
+
+        const event = await Event.findOne({ _id: id, userId: user._id })
         if(!event) return Response.json({message: "Event not found"}, {status: 404})
 
         if(event.recurrenceRule === 'once'){

@@ -8,14 +8,16 @@ import { getUserFromSession } from "@/auth/session"
 
 export const runtime = "nodejs"
 
-export async function GET(req: Request, { params }: {params: { id: string }}){
+export async function GET(req: Request, context: { params: Promise<{ id: string }> }){
     await connectDB()
 
     const user = await getUserFromSession(await cookies())
     if(!user) return Response.json({message: "Unauthorized"}, {status: 401})
 
     try {
-        const task = await Task.findOne({ _id: params.id, userId: user._id })
+        const { id } = await context.params
+
+        const task = await Task.findOne({ _id: id, userId: user._id })
         if(!task) return Response.json({message: "Task not found"}, {status: 404})
 
         return Response.json({task}, {status: 200})
@@ -24,13 +26,15 @@ export async function GET(req: Request, { params }: {params: { id: string }}){
     }
 }
 
-export async function PUT(req: Request, { params }: {params: { id: string }}){
+export async function PUT(req: Request, context: { params: Promise<{ id: string }> }){
     await connectDB()
 
     const user = await getUserFromSession(await cookies())
     if(!user) return Response.json({message: "Unauthorized"}, {status: 401})
 
     try {
+        const { id } = await context.params
+
         const body = await req.json()
         const parsed = updateTaskSchema.safeParse(body)
 
@@ -39,7 +43,7 @@ export async function PUT(req: Request, { params }: {params: { id: string }}){
         const { title, notes, start, deadline } = parsed.data
 
         const task = await Task.findOneAndUpdate(
-            { _id: params.id, userId: user._id },
+            { _id: id, userId: user._id },
             { title, notes, start, deadline, updatedAt: Date.now() },
             { new: true }
         )
@@ -51,14 +55,16 @@ export async function PUT(req: Request, { params }: {params: { id: string }}){
     }
 }
 
-export async function DELETE(req: Request, { params }: {params: { id: string }}){
+export async function DELETE(req: Request, context: { params: Promise<{ id: string }> }){
     await connectDB()
 
     const user = await getUserFromSession(await cookies())
     if(!user) return Response.json({message: "Unauthorized"}, {status: 401})
 
     try{
-        const task = await Task.findOneAndDelete({ _id: params.id, userId: user._id})
+        const { id } = await context.params
+
+        const task = await Task.findOneAndDelete({ _id: id, userId: user._id})
         if(!task) return Response.json({message: "Task not found"}, {status: 404})
 
         return Response.json({message: "Task deleted successfully"}, {status: 200})

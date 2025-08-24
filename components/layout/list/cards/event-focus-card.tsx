@@ -73,7 +73,7 @@ function Timer({ urgent, timeRemaining } : Pick<FocusCardProps<Event>, "urgent" 
     return (
         <span className={cn(
             "absolute top-0 right-1 font-[RobotoMono]",
-            (urgent ? "text-destructive" : "text-affirmative")
+            (urgent ? "text-destructive" : "text-primary")
         )}>
             {timeRemaining}
         </span>
@@ -136,7 +136,7 @@ function EditHandler({ item, setHovered } : Pick<FocusCardProps<Event>, "item" |
                 <TooltipTrigger asChild>
                     <Dialog open={dialog} onOpenChange={setDialog}>
                         <DialogTrigger>
-                            <PenLine className="absolute bottom-0 right-8 size-6 p-1 text-muted-foreground hover:text-affirmative cursor-pointer"/> 
+                            <PenLine className="absolute bottom-0 right-8 size-6 p-1 text-muted-foreground hover:text-primary cursor-pointer"/> 
                         </DialogTrigger>
                         <DialogContent className="rounded-xs p-8 w-104" onCloseAutoFocus={() => setHovered(false)}>
                             <DialogHeader>
@@ -151,7 +151,7 @@ function EditHandler({ item, setHovered } : Pick<FocusCardProps<Event>, "item" |
                                         render={({ field }) => (
                                             <FormItem>
                                             <FormControl>
-                                                <Input className="h-12 border-0 border-b-2 focus-visible:border-affirmative focus-visible:ring-0 rounded-xs" placeholder="title" {...field} />
+                                                <Input className="h-12 border-0 border-b-2 focus-visible:border-primary focus-visible:ring-0 rounded-xs" placeholder="title" {...field} />
                                             </FormControl>
                                             <FormMessage className="text-destructive"/>
                                             </FormItem>
@@ -163,7 +163,7 @@ function EditHandler({ item, setHovered } : Pick<FocusCardProps<Event>, "item" |
                                         render={({ field }) => (
                                             <FormItem>
                                             <FormControl>
-                                                <Textarea className="h-24 border-0 border-b-2 focus-visible:border-affirmative focus-visible:ring-0 rounded-xs max-h-48" placeholder="notes (optional)" {...field} />
+                                                <Textarea className="h-24 border-0 border-b-2 focus-visible:border-primary focus-visible:ring-0 rounded-xs max-h-48" placeholder="notes (optional)" {...field} />
                                             </FormControl>
                                             <FormMessage className="text-destructive"/>
                                             </FormItem>
@@ -440,7 +440,7 @@ export function EventFocusCard({item, timeRemaining, timeRatio, urgent, setHover
             <CardDescription>
                 <Clock className="absolute size-3 top-7.5" /> <span className="absolute top-7 left-6 text-[0.6rem]/4">{format(new Date(item.start), "MMMM dd | HH:mm")} {item.end ? format(new Date(item.end), "- MMMM dd | HH:mm") : ""} </span>
             </CardDescription>
-            <Progress className="absolute h-1 w-48 top-12.5 left-0 rounded-l-none" childClass={urgent ? "bg-destructive" : "bg-affirmative"} value={timeRatio*100} />
+            <Progress className="absolute h-1 w-48 top-12.5 left-0 rounded-l-none" childClass={urgent ? "bg-destructive" : "bg-primary"} value={timeRatio*100} />
             <CardDescription>
                 <ScrollArea className="h-12 w-50 pr-1 absolute top-7 text-xs">
                     {item.notes}

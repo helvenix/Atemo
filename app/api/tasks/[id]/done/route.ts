@@ -7,15 +7,17 @@ import { getUserFromSession } from "@/auth/session"
 
 export const runtime = "nodejs"
 
-export async function PUT({ params }: {params: { id: string }}){
+export async function PUT(req: Request, context: { params: Promise<{ id: string }> }){
     await connectDB()
 
     const user = await getUserFromSession(await cookies())
     if(!user) return Response.json({message: "Unauthorized"}, {status: 401})
 
     try{
+        const { id } = await context.params
+
         const task = await Task.findOneAndUpdate(
-            { _id: params.id, userId: user._id },
+            { _id: id, userId: user._id },
             { completedStatus: true, completionDate: new Date(), updatedAt: new Date() },
             { new: true }
         )
